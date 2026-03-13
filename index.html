@@ -8,13 +8,28 @@
 
 body{
 margin:0;
-background:black;
-color:white;
 font-family:Arial;
+color:white;
 overflow:hidden;
 }
 
-/* intro screen */
+/* MAIN PAGE */
+
+#main{
+position:fixed;
+width:100%;
+height:100%;
+background-image:url("background.jpg");
+background-size:cover;
+background-position:center;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+text-align:center;
+}
+
+/* INTRO OVERLAY */
 
 #intro{
 position:fixed;
@@ -25,49 +40,29 @@ display:flex;
 justify-content:center;
 align-items:center;
 text-align:center;
-font-size:32px;
+font-size:34px;
+transition:opacity 3s;
 }
 
-/* text animation */
-
-.fade{
+.fadeOut{
 opacity:0;
+pointer-events:none;
+}
+
+/* TEXT ANIMATION */
+
+#text{
 transition:opacity 2s;
 }
 
-.show{
-opacity:1;
-}
-
-/* main page */
-
-#main{
-display:none;
-height:100vh;
-background-image:url("background.jpg");
-background-size:cover;
-background-position:center;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-text-align:center;
-}
-
-h1{
-font-size:60px;
+.hidden{
+opacity:0;
 }
 
 </style>
 </head>
 
 <body>
-
-<div id="intro">
-<div id="text" class="show">
-Please use a computer<br>
-and turn on your sound 🎧
-</div>
-</div>
 
 <div id="main">
 
@@ -76,59 +71,61 @@ and turn on your sound 🎧
 
 </div>
 
+<div id="intro">
+<div id="text">
+Please use a computer<br>
+and turn on your sound 🎧
+</div>
+</div>
+
 <audio id="music" loop>
 <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-const text = document.getElementById("text");
-const music = document.getElementById("music");
+const text = document.getElementById("text")
+const intro = document.getElementById("intro")
+const music = document.getElementById("music")
 
-/* step 1 */
-
-setTimeout(()=>{
-text.classList.remove("show");
-text.classList.add("fade");
-},3000);
-
-/* step 2 */
+/* message 1 */
 
 setTimeout(()=>{
-text.innerHTML="For the best experience...";
-text.classList.remove("fade");
-text.classList.add("show");
-},5000);
+text.classList.add("hidden")
+},3000)
 
-/* step 3 */
+/* message 2 */
 
 setTimeout(()=>{
-text.classList.remove("show");
-text.classList.add("fade");
-},8000);
+text.innerHTML="For the best experience..."
+text.classList.remove("hidden")
+},5000)
 
-/* step 4 */
-
-setTimeout(()=>{
-text.innerHTML="I made something for you...";
-text.classList.remove("fade");
-text.classList.add("show");
-music.play();
-},10000);
-
-/* step 5 */
+/* message 3 */
 
 setTimeout(()=>{
-text.classList.remove("show");
-text.classList.add("fade");
-},13000);
+text.classList.add("hidden")
+},8000)
 
-/* step 6 */
+/* message 4 */
 
 setTimeout(()=>{
-document.getElementById("intro").style.display="none";
-document.getElementById("main").style.display="flex";
-},15000);
+text.innerHTML="I made something for you..."
+text.classList.remove("hidden")
+music.play()
+},10000)
+
+/* remove text */
+
+setTimeout(()=>{
+text.classList.add("hidden")
+},13000)
+
+/* fade into main page */
+
+setTimeout(()=>{
+intro.classList.add("fadeOut")
+},15000)
 
 </script>
 
