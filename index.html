@@ -17,6 +17,108 @@ body{
   cursor:default;
 }
 
+/* ── GATE PAGE ── */
+#gate{
+  position:fixed; inset:0; background:black;
+  display:flex; flex-direction:column;
+  justify-content:center; align-items:center;
+  z-index:1000; transition:opacity 1.2s ease;
+}
+#gate.unlocking{ opacity:0; pointer-events:none; }
+#gate-stars{ position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+
+/* Countdown */
+.countdown-wrap{
+  display:flex; gap:28px; margin-bottom:56px; margin-top:-20px;
+  position:relative; z-index:1;
+}
+.countdown-unit{
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+}
+.countdown-num{
+  font-family:'Cormorant Garamond', serif; font-weight:300; font-style:italic;
+  font-size:clamp(36px,7vw,64px); color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,0.85);
+  letter-spacing:2px; line-height:1;
+  min-width:60px; text-align:center;
+}
+.countdown-label{
+  font-family:'Montserrat', sans-serif; font-size:8px; font-weight:200;
+  letter-spacing:5px; text-transform:uppercase; color:rgba(255,255,255,0.3);
+}
+.countdown-sep{
+  font-family:'Cormorant Garamond', serif; font-size:clamp(30px,5vw,52px);
+  color:rgba(255,255,255,0.2); align-self:flex-start;
+  padding-top:4px; font-weight:300;
+}
+
+/* Password */
+.gate-lock{
+  display:flex; flex-direction:column; align-items:center;
+  gap:16px; position:relative; z-index:1;
+}
+.gate-lock-label{
+  font-family:'Montserrat', sans-serif; font-size:9px; font-weight:200;
+  letter-spacing:5px; text-transform:uppercase; color:rgba(255,255,255,0.3);
+}
+.gate-input-row{ display:flex; gap:0; align-items:stretch; }
+#gateInput{
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.2); border-right:none;
+  color:white; font-family:'Cormorant Garamond', serif;
+  font-style:italic; font-size:18px; letter-spacing:3px;
+  padding:12px 20px; outline:none; width:220px;
+  transition:border-color 0.3s;
+  caret-color:rgba(255,255,255,0.6);
+}
+#gateInput::placeholder{ color:rgba(255,255,255,0.2); font-size:13px; letter-spacing:2px; }
+#gateInput:focus{ border-color:rgba(255,255,255,0.5); }
+#gateInput.wrong{
+  border-color:rgba(255,80,80,0.6);
+  animation:shake 0.4s ease;
+}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-8px)}
+  40%{transform:translateX(8px)}
+  60%{transform:translateX(-5px)}
+  80%{transform:translateX(5px)}
+}
+#gateBtn{
+  background:transparent; border:1px solid rgba(255,255,255,0.2);
+  color:rgba(255,255,255,0.5); cursor:pointer;
+  font-family:'Montserrat', sans-serif; font-size:9px;
+  font-weight:200; letter-spacing:4px; text-transform:uppercase;
+  padding:12px 20px; transition:all 0.3s;
+}
+#gateBtn:hover{ border-color:rgba(255,255,255,0.5); color:white; background:rgba(255,255,255,0.05); }
+
+.gate-hint{
+  font-family:'Cormorant Garamond', serif; font-style:italic;
+  font-size:13px; color:rgba(255,255,255,0.2); letter-spacing:1px;
+  margin-top:4px; min-height:18px; transition:color 0.3s;
+}
+.gate-hint.error{ color:rgba(255,100,100,0.6); }
+.gate-hint.success{ color:rgba(255,200,200,0.7); }
+
+/* Unlock overlay */
+#unlockOverlay{
+  position:fixed; inset:0; background:black;
+  z-index:1001; opacity:0; pointer-events:none;
+  display:flex; justify-content:center; align-items:center;
+  transition:opacity 0.4s;
+}
+#unlockOverlay.show{ opacity:1; }
+#unlockMsg{
+  font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:300;
+  font-size:clamp(20px,4vw,36px); color:transparent;
+  -webkit-text-stroke:0.6px rgba(255,255,255,0.8);
+  letter-spacing:5px; text-align:center; line-height:1.8;
+  opacity:0; transform:translateY(16px);
+  transition:opacity 1s ease 0.3s, transform 1s ease 0.3s;
+}
+#unlockOverlay.show #unlockMsg{ opacity:1; transform:translateY(0); }
+
 /* ── FILM GRAIN ── */
 #grain{
   position:fixed; top:-50%; left:-50%;
@@ -424,6 +526,47 @@ h1.reveal{ opacity:1; transform:translateY(0); }
 </head>
 <body>
 
+<!-- ── GATE PAGE ── -->
+<div id="gate">
+  <div id="gate-stars"></div>
+
+  <div class="countdown-wrap">
+    <div class="countdown-unit">
+      <div class="countdown-num" id="cd-days">00</div>
+      <div class="countdown-label">Ngày</div>
+    </div>
+    <div class="countdown-sep">:</div>
+    <div class="countdown-unit">
+      <div class="countdown-num" id="cd-hours">00</div>
+      <div class="countdown-label">Giờ</div>
+    </div>
+    <div class="countdown-sep">:</div>
+    <div class="countdown-unit">
+      <div class="countdown-num" id="cd-mins">00</div>
+      <div class="countdown-label">Phút</div>
+    </div>
+    <div class="countdown-sep">:</div>
+    <div class="countdown-unit">
+      <div class="countdown-num" id="cd-secs">00</div>
+      <div class="countdown-label">Giây</div>
+    </div>
+  </div>
+
+  <div class="gate-lock">
+    <div class="gate-lock-label">Nhập mật khẩu để mở</div>
+    <div class="gate-input-row">
+      <input id="gateInput" type="password" placeholder="mật khẩu của em..." autocomplete="off" />
+      <button id="gateBtn" onclick="checkPassword()">Mở ❤️</button>
+    </div>
+    <div class="gate-hint" id="gateHint">Chỉ có em mới biết thôi nhé 🤫</div>
+  </div>
+</div>
+
+<!-- UNLOCK OVERLAY -->
+<div id="unlockOverlay">
+  <div id="unlockMsg">Em đã mở được rồi...<br>Vào đây với anh nhé 🌸</div>
+</div>
+
 <div id="grain"></div>
 <div id="flash"></div>
 <div id="letterboxTop"></div>
@@ -467,9 +610,7 @@ h1.reveal{ opacity:1; transform:translateY(0); }
 <!-- MEMORIES -->
 <section id="memories">
   <canvas id="memoriesStars"></canvas>
-
   <h2 class="reveal-on-scroll">Những Kỷ Niệm Của Chúng Mình 📸</h2>
-
   <div class="slider-wrapper reveal-on-scroll" style="transition-delay:0.2s">
     <div class="polaroid-frame" id="polaroidFrame">
       <div class="slider">
@@ -481,7 +622,6 @@ h1.reveal{ opacity:1; transform:translateY(0); }
       <div class="polaroid-caption" id="polaroidCaption">Mãi bên nhau nhé 🤍</div>
     </div>
   </div>
-
   <h2 class="reveal-on-scroll" style="transition-delay:0.1s">Chúng mình đã bên nhau được</h2>
   <div id="counter" class="reveal-on-scroll" style="transition-delay:0.25s"></div>
   <button id="letterButton" class="reveal-on-scroll" style="transition-delay:0.35s">Mở lời nhắn nhé 💌</button>
@@ -490,7 +630,6 @@ h1.reveal{ opacity:1; transform:translateY(0); }
 <!-- TIMELINE -->
 <section id="timeline">
   <div class="timeline-title reveal-on-scroll">Hành Trình Của Chúng Mình</div>
-
   <div class="timeline-item">
     <div class="timeline-dot"></div>
     <div class="timeline-content">
@@ -498,7 +637,6 @@ h1.reveal{ opacity:1; transform:translateY(0); }
       <div class="timeline-text">Lần đầu anh biết, trái tim anh đã không còn là của riêng mình nữa.</div>
     </div>
   </div>
-
   <div class="timeline-item">
     <div class="timeline-dot"></div>
     <div class="timeline-content">
@@ -506,7 +644,6 @@ h1.reveal{ opacity:1; transform:translateY(0); }
       <div class="timeline-text">Mỗi tin nhắn từ em là một niềm vui nhỏ mà anh nâng niu cả ngày.</div>
     </div>
   </div>
-
   <div class="timeline-item">
     <div class="timeline-dot"></div>
     <div class="timeline-content">
@@ -514,7 +651,6 @@ h1.reveal{ opacity:1; transform:translateY(0); }
       <div class="timeline-text">Khi cùng đi dạo, anh thấy như thế giới chỉ còn hai chúng ta vậy...</div>
     </div>
   </div>
-
   <div class="timeline-item">
     <div class="timeline-dot"></div>
     <div class="timeline-content">
@@ -587,6 +723,86 @@ h1.reveal{ opacity:1; transform:translateY(0); }
 
 <script>
 
+/* ── GATE ── */
+const SECRET_PASSWORD = "03042026"
+const ANNIVERSARY     = new Date("2026-04-03T00:00:00")
+
+const gate          = document.getElementById("gate")
+const gateInput     = document.getElementById("gateInput")
+const gateHint      = document.getElementById("gateHint")
+const unlockOverlay = document.getElementById("unlockOverlay")
+
+// Gate starfield
+;(function(){
+  const c = document.getElementById("gate-stars")
+  for(let i=0;i<120;i++){
+    const s = document.createElement("div")
+    s.style.cssText = `
+      position:absolute;
+      width:${Math.random()*2}px; height:${Math.random()*2}px;
+      background:white; border-radius:50%;
+      top:${Math.random()*100}%; left:${Math.random()*100}%;
+      opacity:${0.1+Math.random()*0.5};
+      animation:twinkle ${2+Math.random()*3}s ${Math.random()*3}s infinite;
+    `
+    c.appendChild(s)
+  }
+})()
+
+// Countdown
+function updateCountdown(){
+  const diff = ANNIVERSARY - new Date()
+  if(diff <= 0){
+    ["cd-days","cd-hours","cd-mins","cd-secs"].forEach(id=>{
+      document.getElementById(id).textContent = "00"
+    })
+    return
+  }
+  const days  = Math.floor(diff / (1000*60*60*24))
+  const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60))
+  const mins  = Math.floor((diff % (1000*60*60)) / (1000*60))
+  const secs  = Math.floor((diff % (1000*60)) / 1000)
+  document.getElementById("cd-days").textContent  = String(days).padStart(2,"0")
+  document.getElementById("cd-hours").textContent = String(hours).padStart(2,"0")
+  document.getElementById("cd-mins").textContent  = String(mins).padStart(2,"0")
+  document.getElementById("cd-secs").textContent  = String(secs).padStart(2,"0")
+}
+updateCountdown()
+setInterval(updateCountdown, 1000)
+
+// Enter key support
+gateInput.addEventListener("keydown", e=>{ if(e.key==="Enter") checkPassword() })
+
+function checkPassword(){
+  const val = gateInput.value.trim()
+  if(val === SECRET_PASSWORD){
+    gateHint.textContent = "Đúng rồi em ơi... 💕"
+    gateHint.className = "gate-hint success"
+    gateInput.disabled = true
+    setTimeout(()=>{
+      unlockOverlay.classList.add("show")
+      setTimeout(()=>{
+        gate.classList.add("unlocking")
+        // Start the cinematic experience as the gate fades
+        startExperience()
+        setTimeout(()=>{
+          gate.style.display = "none"
+          unlockOverlay.classList.remove("show")
+          setTimeout(()=>{ unlockOverlay.style.display="none" }, 1200)
+        }, 1200)
+      }, 2400)
+    }, 600)
+  } else {
+    gateInput.classList.add("wrong")
+    gateHint.textContent = "Chưa đúng rồi em ơi, thử lại nhé 🥺"
+    gateHint.className = "gate-hint error"
+    setTimeout(()=>{
+      gateInput.classList.remove("wrong")
+      gateInput.value = ""
+    }, 500)
+  }
+}
+
 /* ── BOOT ── */
 const intro      = document.getElementById("intro")
 const text       = document.getElementById("text")
@@ -595,25 +811,21 @@ const sceneCard1 = document.getElementById("sceneCard1")
 const sceneCard2 = document.getElementById("sceneCard2")
 const flash      = document.getElementById("flash")
 
-document.body.addEventListener("click", startExperience, {once:true})
-
 function startExperience(){
+  // Show intro screen, then auto-proceed (no click needed — user already interacted via password)
   typeWriter("Anh có món quà này cho em...", 80)
-
   music.volume = 0
   music.play().catch(()=>{})
   let fade = setInterval(()=>{
     if(music.volume < 0.45){ music.volume = Math.min(music.volume+0.015, 0.45) }
     else clearInterval(fade)
   }, 200)
-
-  // Fade out intro
+  // Auto-fade intro after typewriter finishes
   setTimeout(()=>{
     intro.classList.add("hidden")
     setTimeout(()=>{ intro.style.display="none" }, 2000)
   }, 4200)
-
-  // Scene card 1 with projector flash
+  // Scene card 1 — Chương I
   setTimeout(()=>{
     projectorFlash()
     sceneCard1.classList.add("show")
@@ -699,7 +911,6 @@ const slides   = document.querySelectorAll(".slide")
 const captions = Array.from(slides).map(s=>s.dataset.caption||"")
 const capEl    = document.getElementById("polaroidCaption")
 let idx = 0
-
 setInterval(()=>{
   slides[idx].classList.remove("active")
   idx=(idx+1)%slides.length
@@ -714,9 +925,8 @@ setInterval(()=>{
 document.getElementById("polaroidFrame").addEventListener("click",()=>{
   const activeSrc = document.querySelector(".slide.active")?.src
   if(!activeSrc) return
-  const lb = document.getElementById("lightbox")
   document.getElementById("lightboxImg").src = activeSrc
-  lb.classList.add("show")
+  document.getElementById("lightbox").classList.add("show")
 })
 function closeLightbox(){ document.getElementById("lightbox").classList.remove("show") }
 document.getElementById("lightbox").addEventListener("click",e=>{
@@ -737,7 +947,7 @@ const observer = new IntersectionObserver(entries=>{
 },{threshold:0.15})
 document.querySelectorAll(".reveal-on-scroll, .timeline-content, .reason-card").forEach(el=>observer.observe(el))
 
-/* ── SCENE CARD 2 on scroll into memories ── */
+/* ── SCENE CARD 2 on scroll ── */
 let scene2Fired = false
 const memoriesSection = document.getElementById("memories")
 window.addEventListener("scroll",()=>{
@@ -756,7 +966,7 @@ const letter = document.getElementById("letter")
 document.getElementById("letterButton").onclick=()=> letter.classList.add("show")
 function closeLetter(){ letter.classList.remove("show") }
 
-/* ── EASTER EGG: click the title ── */
+/* ── EASTER EGG ── */
 document.getElementById("mainTitle").addEventListener("click",e=>{
   const cx=e.clientX, cy=e.clientY
   for(let i=0;i<18;i++){
