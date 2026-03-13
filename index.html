@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>100 Days With You</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
 
@@ -13,7 +14,7 @@ scroll-behavior:smooth;
 
 body{
 margin:0;
-font-family:Arial;
+font-family:'Lato', sans-serif;
 color:white;
 overflow-x:hidden;
 background:black;
@@ -33,68 +34,67 @@ font-size:35px;
 text-align:center;
 z-index:10;
 transition:opacity 2s;
+font-family:'Playfair Display', serif;
+font-style:italic;
+letter-spacing:1px;
 }
 
 .hidden{
 opacity:0;
+pointer-events:none;
 }
 
 /* HERO */
 
 #hero{
-
 height:100vh;
 position:relative;
-
 background-image:url("background.jpg");
 background-size:cover;
 background-position:center;
-
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
-
 }
 
 /* STARS */
 
 #stars{
-
 position:absolute;
 width:100%;
 height:100%;
 top:0;
 left:0;
 pointer-events:none;
-
 }
 
 .star{
-
 position:absolute;
 background:white;
 border-radius:50%;
 animation:twinkle 3s infinite;
-
 }
 
 @keyframes twinkle{
-
 0%{opacity:0.2}
 50%{opacity:1}
 100%{opacity:0.2}
-
 }
 
 h1{
+font-family:'Playfair Display', serif;
 font-size:70px;
 margin:0;
+letter-spacing:2px;
 }
 
 p{
-font-size:22px;
+font-size:20px;
+font-weight:300;
+letter-spacing:0.5px;
+line-height:1.7;
 }
 
 /* HEARTS */
@@ -104,52 +104,60 @@ position:fixed;
 bottom:-20px;
 animation:float 8s linear infinite;
 opacity:0.7;
+pointer-events:none;
 }
 
 @keyframes float{
-
 0%{transform:translateY(0);opacity:0}
 20%{opacity:1}
-100%{
-transform:translateY(-100vh) translateX(40px);
-opacity:0
-}
-
+100%{transform:translateY(-100vh) translateX(40px);opacity:0}
 }
 
 /* SECTION */
 
 #memories{
-
 background:black;
-padding:120px 0;
+padding:100px 20px;
+display:flex;
+flex-direction:column;
+align-items:center;
 text-align:center;
-
 }
 
-/* GALLERY */
+#memories h2{
+font-family:'Playfair Display', serif;
+font-weight:400;
+letter-spacing:1px;
+}
+
+/* GALLERY — KEY FIX */
+
+.slider-wrapper{
+width:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+margin:20px 0;
+}
 
 .slider{
-
 width:350px;
 height:350px;
-margin:auto;
-position:relative;
-
+position:relative; /* keeps absolute children contained */
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 0 40px rgba(255,77,109,0.3);
 }
 
 .slide{
-
 position:absolute;
+top:0;
+left:0;
 width:100%;
 height:100%;
 object-fit:cover;
-
 opacity:0;
 transition:opacity 1s;
-
-border-radius:20px;
-
 }
 
 .slide.active{
@@ -159,62 +167,94 @@ opacity:1;
 /* COUNTER */
 
 #counter{
-
-font-size:35px;
-margin-top:30px;
-
+font-size:40px;
+margin-top:10px;
+font-family:'Playfair Display', serif;
+color:#ff4d6d;
 }
 
 /* LOVE LETTER */
 
 #letterButton{
-
 margin-top:50px;
-padding:12px 25px;
+padding:14px 30px;
 font-size:18px;
+font-family:'Lato', sans-serif;
+letter-spacing:1px;
 border:none;
-border-radius:20px;
-background:#ff4d6d;
+border-radius:30px;
+background:linear-gradient(135deg,#ff4d6d,#ff8fa3);
 color:white;
 cursor:pointer;
+box-shadow:0 4px 20px rgba(255,77,109,0.4);
+transition:transform 0.2s, box-shadow 0.2s;
+}
 
+#letterButton:hover{
+transform:translateY(-2px);
+box-shadow:0 8px 30px rgba(255,77,109,0.5);
 }
 
 #letter{
-
 position:fixed;
 top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.8);
-
+background:rgba(0,0,0,0.85);
 display:flex;
 justify-content:center;
 align-items:center;
-
 opacity:0;
 pointer-events:none;
 transition:opacity 0.5s;
-
+z-index:20;
 }
 
 #letterBox{
-
 background:white;
-color:black;
-padding:40px;
-border-radius:15px;
-max-width:500px;
+color:#1a1a1a;
+padding:50px 40px;
+border-radius:20px;
+max-width:480px;
 text-align:center;
+box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
 
+#letterBox h2{
+font-family:'Playfair Display', serif;
+font-size:28px;
+color:#ff4d6d;
+margin-bottom:20px;
+}
+
+#letterBox p{
+font-size:17px;
+line-height:1.8;
+color:#333;
+font-weight:300;
+}
+
+#letterBox button{
+margin-top:25px;
+padding:10px 24px;
+font-size:15px;
+border:2px solid #ff4d6d;
+border-radius:20px;
+background:transparent;
+color:#ff4d6d;
+cursor:pointer;
+transition:all 0.2s;
+}
+
+#letterBox button:hover{
+background:#ff4d6d;
+color:white;
 }
 
 #letter.show{
-
 opacity:1;
 pointer-events:auto;
-
 }
 
 </style>
@@ -223,88 +263,64 @@ pointer-events:auto;
 <body>
 
 <!-- INTRO -->
-
 <div id="intro">
-
-<div id="text">
-
-Click anywhere<br>
-Turn on your sound 🎧
-
-</div>
-
+  <div id="text">
+    Click anywhere<br>
+    Turn on your sound 🎧
+  </div>
 </div>
 
 <!-- HERO -->
-
 <section id="hero">
-
-<div id="stars"></div>
-
-<h1>100 Days With You ❤️</h1>
-
-<p>
-Thank you for being in my life.<br>
-These days with you mean the world to me.
-</p>
-
+  <div id="stars"></div>
+  <h1>100 Days With You ❤️</h1>
+  <p>
+    Thank you for being in my life.<br>
+    These days with you mean the world to me.
+  </p>
 </section>
 
 <!-- MEMORIES -->
-
 <section id="memories">
 
-<h2>Our Memories 📸</h2>
+  <h2>Our Memories 📸</h2>
 
-<div class="slider">
+  <!-- Wrapper ensures the slider is centered -->
+  <div class="slider-wrapper">
+    <div class="slider">
+      <img src="photo1.jpg" class="slide active">
+      <img src="photo2.jpg" class="slide">
+      <img src="photo3.jpg" class="slide">
+      <img src="photo4.jpg" class="slide">
+    </div>
+  </div>
 
-<img src="photo1.jpg" class="slide active">
-<img src="photo2.jpg" class="slide">
-<img src="photo3.jpg" class="slide">
-<img src="photo4.jpg" class="slide">
+  <h2>We've been together for</h2>
 
-</div>
+  <div id="counter"></div>
 
-<h2>We've been together for</h2>
-
-<div id="counter"></div>
-
-<button id="letterButton">Open a message 💌</button>
+  <button id="letterButton">Open a message 💌</button>
 
 </section>
 
 <!-- LOVE LETTER POPUP -->
-
 <div id="letter">
-
-<div id="letterBox">
-
-<h2>For You ❤️</h2>
-
-<p>
-
-These 100 days with you have been some of the happiest moments of my life.  
-Every laugh, every conversation, every moment together means so much to me.
-
-Thank you for being here with me.  
-I hope we will continue making many more beautiful memories together.
-
-I love you.
-
-</p>
-
-<button onclick="closeLetter()">Close</button>
-
-</div>
-
+  <div id="letterBox">
+    <h2>For You ❤️</h2>
+    <p>
+      These 100 days with you have been some of the happiest moments of my life.<br><br>
+      Every laugh, every conversation, every moment together means so much to me.<br><br>
+      Thank you for being here with me.
+      I hope we will continue making many more beautiful memories together.<br><br>
+      <strong>I love you.</strong>
+    </p>
+    <button onclick="closeLetter()">Close</button>
+  </div>
 </div>
 
 <!-- MUSIC -->
-
 <audio id="music" loop>
-
-<source src="music.mp3" type="audio/mpeg">
-
+  <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -313,169 +329,106 @@ const intro = document.getElementById("intro")
 const text = document.getElementById("text")
 const music = document.getElementById("music")
 
-document.body.addEventListener("click",startExperience,{once:true})
+document.body.addEventListener("click", startExperience, {once:true})
 
 function startExperience(){
-
-typeWriter("I made something for you...",80)
-
-music.volume=0
-music.play()
-
-let fade=setInterval(()=>{
-
-if(music.volume<0.5){
-music.volume+=0.02
-}else{
-clearInterval(fade)
-}
-
-},200)
-
-setTimeout(()=>{
-
-intro.classList.add("hidden")
-
-setTimeout(()=>{
-intro.style.display="none"
-},2000)
-
-startHearts()
-
-},4500)
-
+  typeWriter("I made something for you...", 80)
+  music.volume = 0
+  music.play()
+  let fade = setInterval(()=>{
+    if(music.volume < 0.5){
+      music.volume += 0.02
+    } else {
+      clearInterval(fade)
+    }
+  }, 200)
+  setTimeout(()=>{
+    intro.classList.add("hidden")
+    setTimeout(()=>{ intro.style.display="none" }, 2000)
+    startHearts()
+  }, 4500)
 }
 
 /* TYPING */
-
-function typeWriter(textMessage,speed){
-
-text.innerHTML=""
-let i=0
-
-function typing(){
-
-if(i<textMessage.length){
-
-text.innerHTML+=textMessage.charAt(i)
-
-i++
-
-setTimeout(typing,speed)
-
-}
-
-}
-
-typing()
-
+function typeWriter(textMessage, speed){
+  text.innerHTML = ""
+  let i = 0
+  function typing(){
+    if(i < textMessage.length){
+      text.innerHTML += textMessage.charAt(i)
+      i++
+      setTimeout(typing, speed)
+    }
+  }
+  typing()
 }
 
 /* HEARTS */
-
 function createHeart(){
-
-const heart=document.createElement("div")
-
-heart.className="heart"
-heart.innerHTML="❤️"
-
-heart.style.left=Math.random()*100+"vw"
-heart.style.fontSize=(15+Math.random()*25)+"px"
-
-document.body.appendChild(heart)
-
-setTimeout(()=>{
-heart.remove()
-},8000)
-
+  const heart = document.createElement("div")
+  heart.className = "heart"
+  heart.innerHTML = "❤️"
+  heart.style.left = Math.random()*100 + "vw"
+  heart.style.fontSize = (15 + Math.random()*25) + "px"
+  document.body.appendChild(heart)
+  setTimeout(()=>{ heart.remove() }, 8000)
 }
 
 function startHearts(){
-
-setInterval(createHeart,700)
-
+  setInterval(createHeart, 700)
 }
 
 /* STARS */
-
 function createStars(){
-
-const stars=document.getElementById("stars")
-
-for(let i=0;i<120;i++){
-
-const star=document.createElement("div")
-
-star.className="star"
-
-star.style.width=Math.random()*3+"px"
-star.style.height=star.style.width
-
-star.style.top=Math.random()*100+"%"
-star.style.left=Math.random()*100+"%"
-
-star.style.animationDuration=(2+Math.random()*3)+"s"
-
-stars.appendChild(star)
-
-}
-
+  const stars = document.getElementById("stars")
+  for(let i=0; i<120; i++){
+    const star = document.createElement("div")
+    star.className = "star"
+    star.style.width = Math.random()*3 + "px"
+    star.style.height = star.style.width
+    star.style.top = Math.random()*100 + "%"
+    star.style.left = Math.random()*100 + "%"
+    star.style.animationDuration = (2 + Math.random()*3) + "s"
+    stars.appendChild(star)
+  }
 }
 
 createStars()
 
 /* GALLERY */
-
-let slides=document.querySelectorAll(".slide")
-let index=0
+let slides = document.querySelectorAll(".slide")
+let index = 0
 
 setInterval(()=>{
-
-slides[index].classList.remove("active")
-
-index=(index+1)%slides.length
-
-slides[index].classList.add("active")
-
-},4000)
+  slides[index].classList.remove("active")
+  index = (index+1) % slides.length
+  slides[index].classList.add("active")
+}, 4000)
 
 /* COUNTER */
-
-const startDate=new Date("2025-12-24")
+const startDate = new Date("2025-12-24")
 
 function updateCounter(){
-
-const now=new Date()
-
-const diff=now-startDate
-
-const days=Math.floor(diff/(1000*60*60*24))
-
-document.getElementById("counter").innerHTML=days+" days ❤️"
-
+  const now = new Date()
+  const diff = now - startDate
+  const days = Math.floor(diff / (1000*60*60*24))
+  document.getElementById("counter").innerHTML = days + " days ❤️"
 }
 
 updateCounter()
-setInterval(updateCounter,60000)
+setInterval(updateCounter, 60000)
 
 /* LOVE LETTER */
+const letter = document.getElementById("letter")
 
-const letter=document.getElementById("letter")
-
-document.getElementById("letterButton").onclick=()=>{
-
-letter.classList.add("show")
-
+document.getElementById("letterButton").onclick = ()=>{
+  letter.classList.add("show")
 }
 
 function closeLetter(){
-
-letter.classList.remove("show")
-
+  letter.classList.remove("show")
 }
 
 </script>
-
 </body>
 </html>
