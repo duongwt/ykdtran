@@ -16,6 +16,7 @@ margin:0;
 font-family:Arial;
 color:white;
 overflow-x:hidden;
+background:black;
 }
 
 /* INTRO */
@@ -38,11 +39,12 @@ transition:opacity 2s;
 opacity:0;
 }
 
-/* HERO PAGE */
+/* HERO */
 
 #hero{
 
 height:100vh;
+position:relative;
 
 background-image:url("background.jpg");
 background-size:cover;
@@ -53,6 +55,36 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
+
+}
+
+/* STARS */
+
+#stars{
+
+position:absolute;
+width:100%;
+height:100%;
+top:0;
+left:0;
+pointer-events:none;
+
+}
+
+.star{
+
+position:absolute;
+background:white;
+border-radius:50%;
+animation:twinkle 3s infinite;
+
+}
+
+@keyframes twinkle{
+
+0%{opacity:0.2}
+50%{opacity:1}
+100%{opacity:0.2}
 
 }
 
@@ -77,9 +109,7 @@ opacity:0.7;
 @keyframes float{
 
 0%{transform:translateY(0);opacity:0}
-
 20%{opacity:1}
-
 100%{
 transform:translateY(-100vh) translateX(40px);
 opacity:0
@@ -87,7 +117,7 @@ opacity:0
 
 }
 
-/* SCROLL SECTION */
+/* SECTION */
 
 #memories{
 
@@ -135,6 +165,58 @@ margin-top:30px;
 
 }
 
+/* LOVE LETTER */
+
+#letterButton{
+
+margin-top:50px;
+padding:12px 25px;
+font-size:18px;
+border:none;
+border-radius:20px;
+background:#ff4d6d;
+color:white;
+cursor:pointer;
+
+}
+
+#letter{
+
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+opacity:0;
+pointer-events:none;
+transition:opacity 0.5s;
+
+}
+
+#letterBox{
+
+background:white;
+color:black;
+padding:40px;
+border-radius:15px;
+max-width:500px;
+text-align:center;
+
+}
+
+#letter.show{
+
+opacity:1;
+pointer-events:auto;
+
+}
+
 </style>
 </head>
 
@@ -153,10 +235,11 @@ Turn on your sound 🎧
 
 </div>
 
-
 <!-- HERO -->
 
 <section id="hero">
+
+<div id="stars"></div>
 
 <h1>100 Days With You ❤️</h1>
 
@@ -166,7 +249,6 @@ These days with you mean the world to me.
 </p>
 
 </section>
-
 
 <!-- MEMORIES -->
 
@@ -183,13 +265,39 @@ These days with you mean the world to me.
 
 </div>
 
-
 <h2>We've been together for</h2>
 
 <div id="counter"></div>
 
+<button id="letterButton">Open a message 💌</button>
+
 </section>
 
+<!-- LOVE LETTER POPUP -->
+
+<div id="letter">
+
+<div id="letterBox">
+
+<h2>For You ❤️</h2>
+
+<p>
+
+These 100 days with you have been some of the happiest moments of my life.  
+Every laugh, every conversation, every moment together means so much to me.
+
+Thank you for being here with me.  
+I hope we will continue making many more beautiful memories together.
+
+I love you.
+
+</p>
+
+<button onclick="closeLetter()">Close</button>
+
+</div>
+
+</div>
 
 <!-- MUSIC -->
 
@@ -199,18 +307,13 @@ These days with you mean the world to me.
 
 </audio>
 
-
 <script>
 
 const intro = document.getElementById("intro")
 const text = document.getElementById("text")
 const music = document.getElementById("music")
 
-
-/* CLICK TO START */
-
 document.body.addEventListener("click",startExperience,{once:true})
-
 
 function startExperience(){
 
@@ -229,7 +332,6 @@ clearInterval(fade)
 
 },200)
 
-
 setTimeout(()=>{
 
 intro.classList.add("hidden")
@@ -244,13 +346,11 @@ startHearts()
 
 }
 
-
-/* TYPING EFFECT */
+/* TYPING */
 
 function typeWriter(textMessage,speed){
 
 text.innerHTML=""
-
 let i=0
 
 function typing(){
@@ -271,7 +371,6 @@ typing()
 
 }
 
-
 /* HEARTS */
 
 function createHeart(){
@@ -279,11 +378,9 @@ function createHeart(){
 const heart=document.createElement("div")
 
 heart.className="heart"
-
 heart.innerHTML="❤️"
 
 heart.style.left=Math.random()*100+"vw"
-
 heart.style.fontSize=(15+Math.random()*25)+"px"
 
 document.body.appendChild(heart)
@@ -300,11 +397,37 @@ setInterval(createHeart,700)
 
 }
 
+/* STARS */
+
+function createStars(){
+
+const stars=document.getElementById("stars")
+
+for(let i=0;i<120;i++){
+
+const star=document.createElement("div")
+
+star.className="star"
+
+star.style.width=Math.random()*3+"px"
+star.style.height=star.style.width
+
+star.style.top=Math.random()*100+"%"
+star.style.left=Math.random()*100+"%"
+
+star.style.animationDuration=(2+Math.random()*3)+"s"
+
+stars.appendChild(star)
+
+}
+
+}
+
+createStars()
 
 /* GALLERY */
 
 let slides=document.querySelectorAll(".slide")
-
 let index=0
 
 setInterval(()=>{
@@ -317,8 +440,7 @@ slides[index].classList.add("active")
 
 },4000)
 
-
-/* LOVE COUNTER */
+/* COUNTER */
 
 const startDate=new Date("2025-12-24")
 
@@ -335,8 +457,23 @@ document.getElementById("counter").innerHTML=days+" days ❤️"
 }
 
 updateCounter()
-
 setInterval(updateCounter,60000)
+
+/* LOVE LETTER */
+
+const letter=document.getElementById("letter")
+
+document.getElementById("letterButton").onclick=()=>{
+
+letter.classList.add("show")
+
+}
+
+function closeLetter(){
+
+letter.classList.remove("show")
+
+}
 
 </script>
 
