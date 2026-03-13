@@ -1,36 +1,24 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="UTF-8">
 <title>100 Days With You</title>
 
 <style>
 
+html{
+scroll-behavior:smooth;
+}
+
 body{
 margin:0;
-font-family:Arial, sans-serif;
+font-family:Arial;
 color:white;
-overflow:hidden;
+overflow-x:hidden;
 }
 
-/* MAIN PAGE */
-
-#main{
-position:fixed;
-width:100%;
-height:100%;
-background-image:url("background.jpg");
-background-size:cover;
-background-position:center;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-text-align:center;
-overflow:auto;
-}
-
-/* INTRO SCREEN */
+/* INTRO */
 
 #intro{
 position:fixed;
@@ -40,12 +28,9 @@ background:black;
 display:flex;
 justify-content:center;
 align-items:center;
+font-size:35px;
 text-align:center;
-font-size:34px;
-transition:opacity 3s;
-}
-
-#text{
+z-index:10;
 transition:opacity 2s;
 }
 
@@ -53,16 +38,27 @@ transition:opacity 2s;
 opacity:0;
 }
 
-.fadeOut{
-opacity:0;
-pointer-events:none;
+/* HERO PAGE */
+
+#hero{
+
+height:100vh;
+
+background-image:url("background.jpg");
+background-size:cover;
+background-position:center;
+
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+
 }
 
-/* MAIN TEXT */
-
 h1{
-font-size:64px;
-margin-top:40px;
+font-size:70px;
+margin:0;
 }
 
 p{
@@ -73,35 +69,57 @@ font-size:22px;
 
 .heart{
 position:fixed;
-bottom:-50px;
-font-size:20px;
+bottom:-20px;
 animation:float 8s linear infinite;
 opacity:0.7;
 }
 
 @keyframes float{
-0%{transform:translateY(0);opacity:0;}
-20%{opacity:1;}
-100%{transform:translateY(-100vh) translateX(50px);opacity:0;}
+
+0%{transform:translateY(0);opacity:0}
+
+20%{opacity:1}
+
+100%{
+transform:translateY(-100vh) translateX(40px);
+opacity:0
+}
+
+}
+
+/* SCROLL SECTION */
+
+#memories{
+
+background:black;
+padding:120px 0;
+text-align:center;
+
 }
 
 /* GALLERY */
 
 .slider{
+
 width:350px;
 height:350px;
+margin:auto;
 position:relative;
-margin-top:20px;
+
 }
 
 .slide{
+
 position:absolute;
 width:100%;
 height:100%;
 object-fit:cover;
+
 opacity:0;
 transition:opacity 1s;
+
 border-radius:20px;
+
 }
 
 .slide.active{
@@ -111,8 +129,10 @@ opacity:1;
 /* COUNTER */
 
 #counter{
-font-size:32px;
-margin-top:10px;
+
+font-size:35px;
+margin-top:30px;
+
 }
 
 </style>
@@ -120,9 +140,23 @@ margin-top:10px;
 
 <body>
 
-<!-- MAIN PAGE -->
+<!-- INTRO -->
 
-<div id="main">
+<div id="intro">
+
+<div id="text">
+
+Click anywhere<br>
+Turn on your sound 🎧
+
+</div>
+
+</div>
+
+
+<!-- HERO -->
+
+<section id="hero">
 
 <h1>100 Days With You ❤️</h1>
 
@@ -130,6 +164,13 @@ margin-top:10px;
 Thank you for being in my life.<br>
 These days with you mean the world to me.
 </p>
+
+</section>
+
+
+<!-- MEMORIES -->
+
+<section id="memories">
 
 <h2>Our Memories 📸</h2>
 
@@ -142,75 +183,38 @@ These days with you mean the world to me.
 
 </div>
 
+
 <h2>We've been together for</h2>
 
 <div id="counter"></div>
 
-</div>
+</section>
 
-<!-- INTRO -->
-
-<div id="intro">
-<div id="text">
-Please use a computer <br>
-and turn on your sound 🎧
-</div>
-</div>
 
 <!-- MUSIC -->
 
 <audio id="music" loop>
+
 <source src="music.mp3" type="audio/mpeg">
+
 </audio>
+
 
 <script>
 
-const text=document.getElementById("text")
-const intro=document.getElementById("intro")
-const music=document.getElementById("music")
+const intro = document.getElementById("intro")
+const text = document.getElementById("text")
+const music = document.getElementById("music")
 
-/* INTRO FLOW */
 
-setTimeout(()=>{
-text.classList.add("hidden")
-},3000)
+/* CLICK TO START */
 
-setTimeout(()=>{
-text.innerHTML="For the best experience..."
-text.classList.remove("hidden")
-},5000)
+document.body.addEventListener("click",startExperience,{once:true})
 
-setTimeout(()=>{
-text.classList.add("hidden")
-},8000)
 
-/* TYPING EFFECT */
+function startExperience(){
 
-function typeWriter(message,speed){
-
-text.innerHTML=""
-let i=0
-
-function typing(){
-
-if(i<message.length){
-text.innerHTML+=message.charAt(i)
-i++
-setTimeout(typing,speed)
-}
-
-}
-
-typing()
-
-}
-
-setTimeout(()=>{
-
-text.classList.remove("hidden")
 typeWriter("I made something for you...",80)
-
-/* MUSIC FADE IN */
 
 music.volume=0
 music.play()
@@ -225,26 +229,61 @@ clearInterval(fade)
 
 },200)
 
-},10000)
 
 setTimeout(()=>{
-text.classList.add("hidden")
-},13500)
+
+intro.classList.add("hidden")
 
 setTimeout(()=>{
-intro.classList.add("fadeOut")
+intro.style.display="none"
+},2000)
+
 startHearts()
-},15500)
+
+},4500)
+
+}
+
+
+/* TYPING EFFECT */
+
+function typeWriter(textMessage,speed){
+
+text.innerHTML=""
+
+let i=0
+
+function typing(){
+
+if(i<textMessage.length){
+
+text.innerHTML+=textMessage.charAt(i)
+
+i++
+
+setTimeout(typing,speed)
+
+}
+
+}
+
+typing()
+
+}
+
 
 /* HEARTS */
 
 function createHeart(){
 
 const heart=document.createElement("div")
+
 heart.className="heart"
+
 heart.innerHTML="❤️"
 
 heart.style.left=Math.random()*100+"vw"
+
 heart.style.fontSize=(15+Math.random()*25)+"px"
 
 document.body.appendChild(heart)
@@ -256,15 +295,19 @@ heart.remove()
 }
 
 function startHearts(){
-setInterval(createHeart,800)
+
+setInterval(createHeart,700)
+
 }
 
-/* SLIDER */
+
+/* GALLERY */
 
 let slides=document.querySelectorAll(".slide")
+
 let index=0
 
-function showSlide(){
+setInterval(()=>{
 
 slides[index].classList.remove("active")
 
@@ -272,27 +315,27 @@ index=(index+1)%slides.length
 
 slides[index].classList.add("active")
 
-}
+},4000)
 
-setInterval(showSlide,4000)
 
 /* LOVE COUNTER */
 
-const startDate=new Date("2024-12-01") // sửa ngày bắt đầu yêu
+const startDate=new Date("2025-12-24")
 
 function updateCounter(){
 
 const now=new Date()
+
 const diff=now-startDate
 
 const days=Math.floor(diff/(1000*60*60*24))
 
-document.getElementById("counter").innerHTML=
-days+" days ❤️"
+document.getElementById("counter").innerHTML=days+" days ❤️"
 
 }
 
 updateCounter()
+
 setInterval(updateCounter,60000)
 
 </script>
