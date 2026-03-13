@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>100 Days With You</title>
+<title>100 Ngày Bên Em</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@200;300;400&family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
@@ -415,14 +415,14 @@ h1.reveal{ opacity:1; transform:translateY(0); }
 
 <!-- INTRO -->
 <div id="intro">
-  <div id="text">Click anywhere<br>Turn on your sound 🎧</div>
+  <div id="text">Chạm vào màn hình<br>Hãy bật âm thanh lên nhé 🎧</div>
 </div>
 
 <!-- SCENE TITLE CARD -->
 <div id="sceneCard">
-  <div class="scene-label">Chapter I</div>
+  <div class="scene-label">Chương I</div>
   <div class="scene-line"></div>
-  <div class="scene-title">Our Story</div>
+  <div class="scene-title">Câu Chuyện Của Chúng Ta</div>
   <div class="scene-line"></div>
 </div>
 
@@ -431,10 +431,10 @@ h1.reveal{ opacity:1; transform:translateY(0); }
   <div id="heroBg"></div>
   <div id="stars"></div>
   <div class="hero-content">
-    <h1 id="mainTitle">100 Days With You ❤️</h1>
+    <h1 id="mainTitle">100 Ngày Bên Em ❤️</h1>
     <div class="hero-sub" id="heroSub">
-      Thank you for being in my life.<br>
-      These days with you mean the world to me.
+      Cảm ơn em đã xuất hiện trong cuộc đời anh.<br>
+      Từng ngày có em là từng ngày anh trân quý nhất.
     </div>
   </div>
 </section>
@@ -443,7 +443,7 @@ h1.reveal{ opacity:1; transform:translateY(0); }
 <section id="memories">
   <canvas id="memoriesStars"></canvas>
 
-  <h2 class="reveal-on-scroll">Our Memories 📸</h2>
+  <h2 class="reveal-on-scroll">Những Kỷ Niệm Của Chúng Ta 📸</h2>
 
   <div class="slider-wrapper reveal-on-scroll" style="transition-delay:0.2s">
     <div class="polaroid-frame">
@@ -456,23 +456,24 @@ h1.reveal{ opacity:1; transform:translateY(0); }
     </div>
   </div>
 
-  <h2 class="reveal-on-scroll" style="transition-delay:0.1s">We've been together for</h2>
+  <h2 class="reveal-on-scroll" style="transition-delay:0.1s">Chúng ta đã bên nhau được</h2>
   <div id="counter" class="reveal-on-scroll" style="transition-delay:0.25s"></div>
-  <button id="letterButton" class="reveal-on-scroll" style="transition-delay:0.35s">Open a message 💌</button>
+  <button id="letterButton" class="reveal-on-scroll" style="transition-delay:0.35s">Mở lời nhắn nhé 💌</button>
 </section>
 
 <!-- LOVE LETTER POPUP -->
 <div id="letter">
   <div id="letterBox">
-    <h2>For You ❤️</h2>
+    <h2>Dành Cho Em ❤️</h2>
     <p>
-      These 100 days with you have been some of the happiest moments of my life.<br><br>
-      Every laugh, every conversation, every moment together means so much to me.<br><br>
-      Thank you for being here with me.
-      I hope we will continue making many more beautiful memories together.<br><br>
-      <strong>I love you.</strong>
+      100 ngày qua là những ngày hạnh phúc nhất mà anh từng được sống.<br><br>
+      Mỗi nụ cười, mỗi câu chuyện, mỗi khoảnh khắc bên em —<br>
+      tất cả đều trở thành những điều anh nâng niu nhất trong lòng.<br><br>
+      Cảm ơn em đã ở đây, đã chọn anh, đã để anh được yêu em.<br>
+      Anh mong rằng chúng ta sẽ còn viết thêm thật nhiều trang đẹp nữa, cùng nhau.<br><br>
+      <strong>Anh yêu em.</strong>
     </p>
-    <button onclick="closeLetter()">Close</button>
+    <button onclick="closeLetter()">Đóng lại</button>
   </div>
 </div>
 
@@ -491,7 +492,7 @@ const sceneCard = document.getElementById("sceneCard")
 document.body.addEventListener("click", startExperience, {once:true})
 
 function startExperience(){
-  typeWriter("I made something for you...", 75)
+  typeWriter("Anh đã làm điều này cho em...", 80)
 
   music.volume = 0
   music.play().catch(()=>{})
@@ -582,7 +583,7 @@ setInterval(()=>{
 const startDate = new Date("2025-12-24")
 function updateCounter(){
   const days = Math.floor((new Date()-startDate)/(1000*60*60*24))
-  document.getElementById("counter").innerHTML = days+" days ❤️"
+  document.getElementById("counter").innerHTML = days+" ngày ❤️"
 }
 updateCounter()
 setInterval(updateCounter, 60000)
