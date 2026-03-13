@@ -520,6 +520,126 @@ h1.reveal{ opacity:1; transform:translateY(0); }
   pointer-events:none; z-index:0;
 }
 
+/* ══════════════════════════════
+   MOBILE RESPONSIVE  (≤ 600px)
+   ══════════════════════════════ */
+@media (max-width: 600px){
+
+  /* ── GATE ── */
+  .countdown-wrap{
+    gap:12px; margin-bottom:44px; margin-top:0;
+  }
+  .countdown-num{
+    font-size:clamp(28px,10vw,44px);
+    min-width:40px;
+  }
+  .countdown-sep{
+    font-size:clamp(22px,8vw,36px);
+  }
+  .countdown-label{
+    font-size:7px; letter-spacing:3px;
+  }
+  .gate-lock{ gap:12px; padding:0 16px; width:100%; }
+  .gate-lock-label{ font-size:8px; letter-spacing:3px; }
+  .gate-input-row{ width:100%; max-width:320px; }
+  #gateInput{ width:0; flex:1; font-size:16px; padding:12px 14px; }
+  #gateBtn{ padding:12px 14px; font-size:8px; letter-spacing:2px; white-space:nowrap; }
+  .gate-hint{ font-size:12px; text-align:center; }
+
+  /* ── LETTERBOX ── */
+  #letterboxTop, #letterboxBottom{ height:32px; }
+
+  /* ── INTRO ── */
+  #intro{ font-size:20px; padding:0 28px; line-height:2; }
+
+  /* ── HERO ── */
+  #hero{ padding:0 16px; }
+  h1{ font-size:clamp(28px,10vw,52px); letter-spacing:4px; }
+  .hero-sub{
+    font-size:9px; letter-spacing:3px; line-height:2.4; margin-top:16px;
+  }
+  #waveform{ bottom:44px; }
+
+  /* ── MEMORIES ── */
+  #memories{ padding:90px 16px 60px; }
+  #memories h2{ font-size:9px; letter-spacing:4px; }
+
+  /* ── POLAROID — scales with screen, never overflows ── */
+  .slider-wrapper{ margin:24px 0; }
+  .polaroid-frame{
+    padding:10px 10px 44px 10px;
+    transform:rotate(-1deg);
+    max-width:calc(100vw - 48px);
+  }
+  .slider{
+    width:min(260px, calc(100vw - 68px));
+    height:min(260px, calc(100vw - 68px));
+  }
+  .polaroid-caption{ font-size:13px; margin-top:8px; }
+
+  /* ── COUNTER ── */
+  #counter{ font-size:clamp(22px,7vw,34px); letter-spacing:2px; }
+
+  /* ── LETTER BUTTON ── */
+  #letterButton{
+    margin-top:36px; padding:12px 28px;
+    font-size:9px; letter-spacing:4px;
+  }
+
+  /* ── TIMELINE — single column ── */
+  #timeline{ padding:80px 16px 60px; }
+  #timeline::before{ left:20px; transform:none; }
+  .timeline-title{ font-size:9px; letter-spacing:4px; margin-bottom:50px; }
+  .timeline-item,
+  .timeline-item:nth-child(even){
+    flex-direction:column;
+    padding-left:44px;
+    margin-bottom:44px;
+  }
+  .timeline-dot{
+    left:16px; top:4px; transform:none;
+  }
+  .timeline-content,
+  .timeline-item:nth-child(even) .timeline-content{
+    width:100%; padding:0;
+    transform:translateX(0) !important;
+    opacity:0; /* still animated by JS */
+  }
+  .timeline-content.revealed{ opacity:1; }
+  .timeline-date{ font-size:8px; letter-spacing:3px; }
+  .timeline-text{ font-size:16px; }
+
+  /* ── REASONS ── */
+  #reasons{ padding:80px 16px 60px; }
+  .reasons-title{ font-size:9px; letter-spacing:4px; margin-bottom:40px; }
+  .reasons-grid{ gap:16px; }
+  .reason-card{
+    width:calc(50% - 8px); min-width:140px;
+    padding:28px 16px;
+  }
+  .reason-text{ font-size:14px; }
+
+  /* ── LOVE LETTER ── */
+  #letterBox{
+    padding:36px 24px;
+    width:92%;
+  }
+  #letterBox h2{ font-size:28px; margin-bottom:18px; }
+  #letterBox p{ font-size:17px; line-height:1.9; }
+  #letterBox button{ padding:10px 22px; }
+
+  /* ── LIGHTBOX ── */
+  #lightboxClose{ top:40px; right:16px; font-size:10px; }
+
+  /* ── SCENE CARDS ── */
+  .scene-title{ font-size:clamp(20px,6vw,36px); letter-spacing:5px; }
+
+  /* ── ENDING ── */
+  #ending{ padding:60px 24px; gap:24px; }
+  .ending-line{ font-size:clamp(14px,4vw,20px); letter-spacing:2px; }
+  .ending-final{ font-size:clamp(10px,3vw,12px); letter-spacing:5px; }
+}
+
 /* ── EASTER EGG BURST ── */
 .burst-petal{
   position:fixed; pointer-events:none; z-index:997;
@@ -568,13 +688,13 @@ h1.reveal{ opacity:1; transform:translateY(0); }
       <input id="gateInput" type="password" placeholder="mật khẩu của em..." autocomplete="off" />
       <button id="gateBtn" onclick="checkPassword()">Mở ❤️</button>
     </div>
-    <div class="gate-hint" id="gateHint">Đố em biết mật khẩu là gì đấy 🤫</div>
+    <div class="gate-hint" id="gateHint">Chỉ có em mới biết thôi nhé 🤫</div>
   </div>
 </div>
 
 <!-- UNLOCK OVERLAY -->
 <div id="unlockOverlay">
-  <div id="unlockMsg">Giỏi lắm<br>Em nhập đúng rùi 🌸</div>
+  <div id="unlockMsg">Em đã mở được rồi...<br>Vào đây với anh nhé 🌸</div>
 </div>
 
 <div id="grain"></div>
@@ -955,7 +1075,18 @@ updateCounter(); setInterval(updateCounter,60000)
 const observer = new IntersectionObserver(entries=>{
   entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("revealed") })
 },{threshold:0.15})
-document.querySelectorAll(".reveal-on-scroll, .timeline-content, .reason-card").forEach(el=>observer.observe(el))
+document.querySelectorAll(".reveal-on-scroll").forEach(el=>observer.observe(el))
+
+// Timeline: on mobile, clear any inline transform so CSS override works
+const tlObserver = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add("revealed")
+      if(window.innerWidth <= 600) e.target.style.transform = "none"
+    }
+  })
+},{threshold:0.15})
+document.querySelectorAll(".timeline-content, .reason-card").forEach(el=>tlObserver.observe(el))
 
 /* ── SCENE CARD 2 on scroll ── */
 let scene2Fired = false
