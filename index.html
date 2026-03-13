@@ -8,9 +8,9 @@
 
 body{
 margin:0;
-font-family:Arial;
 background:black;
 color:white;
+font-family:Arial;
 overflow:hidden;
 }
 
@@ -24,19 +24,16 @@ background:black;
 display:flex;
 justify-content:center;
 align-items:center;
-flex-direction:column;
-font-size:28px;
 text-align:center;
+font-size:32px;
 }
 
-/* hidden text */
+/* text animation */
 
-.hidden{
+.fade{
 opacity:0;
-transition:2s;
+transition:opacity 2s;
 }
-
-/* show text */
 
 .show{
 opacity:1;
@@ -66,16 +63,10 @@ font-size:60px;
 <body>
 
 <div id="intro">
-
-<div id="message1">
+<div id="text" class="show">
 Please use a computer<br>
 and turn on your sound 🎧
 </div>
-
-<div id="message2" class="hidden">
-For the best experience...
-</div>
-
 </div>
 
 <div id="main">
@@ -91,19 +82,53 @@ For the best experience...
 
 <script>
 
-setTimeout(()=>{
-document.getElementById("message1").classList.add("hidden");
-document.getElementById("message2").classList.add("show");
-},3000);
+const text = document.getElementById("text");
+const music = document.getElementById("music");
+
+/* step 1 */
 
 setTimeout(()=>{
-document.getElementById("music").play();
+text.classList.remove("show");
+text.classList.add("fade");
+},3000);
+
+/* step 2 */
+
+setTimeout(()=>{
+text.innerHTML="For the best experience...";
+text.classList.remove("fade");
+text.classList.add("show");
 },5000);
+
+/* step 3 */
+
+setTimeout(()=>{
+text.classList.remove("show");
+text.classList.add("fade");
+},8000);
+
+/* step 4 */
+
+setTimeout(()=>{
+text.innerHTML="I made something for you...";
+text.classList.remove("fade");
+text.classList.add("show");
+music.play();
+},10000);
+
+/* step 5 */
+
+setTimeout(()=>{
+text.classList.remove("show");
+text.classList.add("fade");
+},13000);
+
+/* step 6 */
 
 setTimeout(()=>{
 document.getElementById("intro").style.display="none";
 document.getElementById("main").style.display="flex";
-},8000);
+},15000);
 
 </script>
 
