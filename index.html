@@ -1,6 +1,8 @@
 <!DOCTYPE html>
+
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>100 Days With You</title>
 
@@ -42,7 +44,6 @@ opacity:0;
 
 #hero{
 height:100vh;
-position:relative;
 background-image:url("background.jpg");
 background-size:cover;
 background-position:center;
@@ -53,29 +54,17 @@ align-items:center;
 text-align:center;
 }
 
-/* MOBILE FIX */
-
-@media (max-width:768px){
-#hero{
-background-position:65% center;
-}
-}
-
 /* TEXT */
 
 h1{
 font-size:70px;
 margin:0;
-text-shadow:
-2px 2px 10px rgba(0,0,0,0.9),
-0 0 20px rgba(0,0,0,0.9);
--webkit-text-stroke:1px black;
+text-shadow:0 0 20px black;
 }
 
 p{
 font-size:22px;
-text-shadow:
-2px 2px 8px rgba(0,0,0,0.9);
+text-shadow:0 0 10px black;
 }
 
 /* HEARTS */
@@ -88,12 +77,16 @@ opacity:0.7;
 }
 
 @keyframes float{
+
 0%{transform:translateY(0);opacity:0}
+
 20%{opacity:1}
+
 100%{
 transform:translateY(-100vh) translateX(40px);
 opacity:0
 }
+
 }
 
 /* MEMORIES */
@@ -140,20 +133,19 @@ pointer-events:none;
 position:absolute;
 background:white;
 border-radius:50%;
-box-shadow:
-0 0 6px white,
-0 0 12px white,
-0 0 20px white;
+box-shadow:0 0 6px white,0 0 12px white,0 0 20px white;
 animation:twinkle 2s infinite;
 }
 
 @keyframes twinkle{
+
 0%{opacity:0.3}
 50%{opacity:1}
 100%{opacity:0.3}
+
 }
 
-/* SHOOTING STARS */
+/* SHOOTING STAR */
 
 .shooting-star{
 position:absolute;
@@ -166,40 +158,76 @@ animation:shoot 2s linear forwards;
 }
 
 @keyframes shoot{
+
 0%{
-transform:translate(0,0) scale(1);
+transform:translate(0,0);
 opacity:1;
 }
+
 100%{
-transform:translate(-800px,400px) scale(0.3);
+transform:translate(-800px,400px);
 opacity:0;
 }
+
 }
 
 /* GALLERY */
 
 .gallery-row{
+
 display:flex;
 justify-content:center;
-gap:50px;
-flex-wrap:wrap;
-margin-top:40px;
+align-items:center;
+
+gap:60px;
+
+max-width:900px;
+margin:40px auto;
+
 }
+
+/* POLAROID FRAME */
 
 .slider{
-width:350px;
-height:350px;
+
+width:340px;
+height:420px;
+
+background:white;
+padding:10px 10px 40px 10px;
+
+border-radius:8px;
+
+box-shadow:0 10px 25px rgba(0,0,0,0.5);
+
 position:relative;
+overflow:hidden;
+
+transition:0.4s;
+
 }
 
+.slider:hover{
+transform:scale(1.05) rotate(-1deg);
+}
+
+/* IMAGE */
+
 .slide{
+
 position:absolute;
+
 width:100%;
 height:100%;
+
 object-fit:cover;
+object-position:center;
+
 opacity:0;
 transition:opacity 1s;
-border-radius:20px;
+
+cursor:pointer;
+
 }
 
 .slide.active{
@@ -213,41 +241,62 @@ font-size:35px;
 margin-top:30px;
 }
 
-/* LOVE LETTER */
+/* LOVE LETTER BUTTON */
 
 #letterButton{
+
 margin-top:50px;
 padding:12px 25px;
+
 font-size:18px;
+
 border:none;
 border-radius:20px;
+
 background:#ff4d6d;
 color:white;
+
 cursor:pointer;
+
 }
 
+/* POPUP LETTER */
+
 #letter{
+
 position:fixed;
+
 top:0;
 left:0;
+
 width:100%;
 height:100%;
+
 background:rgba(0,0,0,0.8);
+
 display:flex;
 justify-content:center;
 align-items:center;
+
 opacity:0;
 pointer-events:none;
+
 transition:opacity 0.5s;
+
 }
 
 #letterBox{
+
 background:white;
 color:black;
+
 padding:40px;
+
 border-radius:15px;
+
 max-width:500px;
 text-align:center;
+
 }
 
 #letter.show{
@@ -255,7 +304,43 @@ opacity:1;
 pointer-events:auto;
 }
 
+/* FULLSCREEN IMAGE */
+
+#fullscreen{
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:black;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+opacity:0;
+pointer-events:none;
+
+transition:0.4s;
+
+}
+
+#fullscreen img{
+max-width:90%;
+max-height:90%;
+}
+
+#fullscreen.show{
+opacity:1;
+pointer-events:auto;
+}
+
 </style>
+
 </head>
 
 <body>
@@ -268,11 +353,14 @@ Turn on your sound 🎧
 </div>
 
 <section id="hero">
+
 <h1>100 Days With You ❤️</h1>
+
 <p>
 Thank you for being in my life.<br>
 These days with you mean the world to me.
 </p>
+
 </section>
 
 <section id="memories">
@@ -285,15 +373,19 @@ These days with you mean the world to me.
 <div class="gallery-row">
 
 <div class="slider" id="gallery1">
+
 <img src="photo1.jpg" class="slide active">
 <img src="photo2.jpg" class="slide">
 <img src="photo3.jpg" class="slide">
 <img src="photo4.jpg" class="slide">
+
 </div>
 
 <div class="slider" id="gallery2">
+
 <img src="photo5.jpg" class="slide active">
 <img src="photo6.jpg" class="slide">
+
 </div>
 
 </div>
@@ -307,20 +399,31 @@ These days with you mean the world to me.
 </section>
 
 <div id="letter">
+
 <div id="letterBox">
 
 <h2>For You ❤️</h2>
 
 <p>
+
 These days with you have been some of the happiest moments of my life.<br><br>
+
 Thank you for being with me.<br><br>
+
 I hope we will continue making beautiful memories together.<br><br>
+
 I love you.
+
 </p>
 
 <button onclick="closeLetter()">Close</button>
 
 </div>
+
+</div>
+
+<div id="fullscreen">
+<img id="fullimg">
 </div>
 
 <audio id="music" loop>
@@ -328,6 +431,8 @@ I love you.
 </audio>
 
 <script>
+
+/* INTRO */
 
 const intro=document.getElementById("intro")
 const text=document.getElementById("text")
@@ -356,9 +461,7 @@ setTimeout(()=>{
 
 intro.classList.add("hidden")
 
-setTimeout(()=>{
-intro.style.display="none"
-},2000)
+setTimeout(()=>intro.style.display="none",2000)
 
 startHearts()
 
@@ -366,17 +469,26 @@ startHearts()
 
 }
 
+/* TYPE EFFECT */
+
 function typeWriter(message,speed){
 
 text.innerHTML=""
+
 let i=0
 
 function typing(){
+
 if(i<message.length){
+
 text.innerHTML+=message.charAt(i)
+
 i++
+
 setTimeout(typing,speed)
+
 }
+
 }
 
 typing()
@@ -489,6 +601,7 @@ const startDate=new Date("2025-12-24")
 function updateCounter(){
 
 const now=new Date()
+
 const diff=now-startDate
 
 const days=Math.floor(diff/(1000*60*60*24))
@@ -498,18 +611,45 @@ document.getElementById("counter").innerHTML=days+" days ❤️"
 }
 
 updateCounter()
+
 setInterval(updateCounter,60000)
 
-/* LOVE LETTER */
+/* LETTER */
 
 const letter=document.getElementById("letter")
 
 document.getElementById("letterButton").onclick=()=>{
+
 letter.classList.add("show")
+
 }
 
 function closeLetter(){
+
 letter.classList.remove("show")
+
+}
+
+/* FULLSCREEN IMAGE */
+
+const fullscreen=document.getElementById("fullscreen")
+const fullimg=document.getElementById("fullimg")
+
+document.querySelectorAll(".slide").forEach(img=>{
+
+img.onclick=()=>{
+
+fullimg.src=img.src
+fullscreen.classList.add("show")
+
+}
+
+})
+
+fullscreen.onclick=()=>{
+
+fullscreen.classList.remove("show")
+
 }
 
 </script>
