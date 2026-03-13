@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <title>100 Days With You</title>
@@ -18,28 +17,6 @@ font-family:Arial;
 background:black;
 color:white;
 overflow-x:hidden;
-}
-
-/* INTRO */
-
-#intro{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:black;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:35px;
-text-align:center;
-z-index:10;
-transition:opacity 2s;
-}
-
-.hidden{
-opacity:0;
 }
 
 /* HERO */
@@ -76,18 +53,15 @@ animation:float 8s linear infinite;
 }
 
 @keyframes float{
-
 0%{transform:translateY(0);opacity:0}
 20%{opacity:1}
-
 100%{
 transform:translateY(-100vh) translateX(40px);
 opacity:0
 }
-
 }
 
-/* MEMORIES SECTION */
+/* MEMORIES */
 
 #memories{
 background:black;
@@ -113,7 +87,6 @@ rgba(255,255,255,0.05),
 transparent 60%
 );
 filter:blur(60px);
-pointer-events:none;
 }
 
 /* STARS */
@@ -124,7 +97,6 @@ width:100%;
 height:100%;
 top:0;
 left:0;
-pointer-events:none;
 }
 
 .star{
@@ -136,11 +108,9 @@ animation:twinkle 2s infinite;
 }
 
 @keyframes twinkle{
-
 0%{opacity:0.3}
 50%{opacity:1}
 100%{opacity:0.3}
-
 }
 
 /* SHOOTING STAR */
@@ -156,31 +126,28 @@ animation:shoot 2s linear forwards;
 }
 
 @keyframes shoot{
-
 0%{
 transform:translate(0,0);
 opacity:1;
 }
-
 100%{
 transform:translate(-800px,400px);
 opacity:0;
 }
-
 }
 
-/* GALLERY ROW */
+/* GALLERY */
 
 .gallery-row{
 display:flex;
 justify-content:center;
 align-items:center;
-gap:60px;
-max-width:900px;
-margin:40px auto;
+gap:80px;
+margin-top:40px;
+flex-wrap:wrap;
 }
 
-/* PHOTO FRAME */
+/* PHOTO FRAME (FIXED SIZE) */
 
 .frame{
 
@@ -189,11 +156,9 @@ height:420px;
 
 background:white;
 
-padding:10px;
+border-radius:10px;
 
-border-radius:8px;
-
-box-shadow:0 10px 25px rgba(0,0,0,0.5);
+box-shadow:0 10px 25px rgba(0,0,0,0.6);
 
 position:relative;
 overflow:hidden;
@@ -203,10 +168,10 @@ transition:0.4s;
 }
 
 .frame:hover{
-transform:scale(1.05) rotate(-1deg);
+transform:scale(1.05);
 }
 
-/* IMAGE */
+/* IMAGE FIX */
 
 .slide{
 
@@ -216,8 +181,7 @@ width:100%;
 height:100%;
 
 object-fit:cover;
-
-background:black;
+object-position:center;
 
 opacity:0;
 transition:opacity 1s;
@@ -241,22 +205,25 @@ margin-top:30px;
 
 #letterButton{
 
-margin-top:50px;
+margin-top:40px;
+
 padding:12px 25px;
 
 font-size:18px;
 
 border:none;
+
 border-radius:20px;
 
 background:#ff4d6d;
+
 color:white;
 
 cursor:pointer;
 
 }
 
-/* LETTER POPUP */
+/* LETTER */
 
 #letter{
 
@@ -276,7 +243,7 @@ align-items:center;
 opacity:0;
 pointer-events:none;
 
-transition:opacity 0.5s;
+transition:0.5s;
 
 }
 
@@ -300,7 +267,7 @@ opacity:1;
 pointer-events:auto;
 }
 
-/* FULLSCREEN IMAGE */
+/* FULLSCREEN */
 
 #fullscreen{
 
@@ -340,13 +307,6 @@ pointer-events:auto;
 </head>
 
 <body>
-
-<div id="intro">
-<div id="text">
-Click anywhere <br>
-Turn on your sound 🎧
-</div>
-</div>
 
 <section id="hero">
 
@@ -422,74 +382,7 @@ I love you.
 <img id="fullimg">
 </div>
 
-<audio id="music" loop>
-<source src="music.mp3" type="audio/mpeg">
-</audio>
-
 <script>
-
-/* INTRO */
-
-const intro=document.getElementById("intro")
-const text=document.getElementById("text")
-const music=document.getElementById("music")
-
-document.body.addEventListener("click",startExperience,{once:true})
-
-function startExperience(){
-
-typeWriter("I made something for you...",80)
-
-music.volume=0
-music.play()
-
-let fade=setInterval(()=>{
-
-if(music.volume<0.5){
-music.volume+=0.02
-}else{
-clearInterval(fade)
-}
-
-},200)
-
-setTimeout(()=>{
-
-intro.classList.add("hidden")
-
-setTimeout(()=>intro.style.display="none",2000)
-
-startHearts()
-
-},4500)
-
-}
-
-/* TYPE EFFECT */
-
-function typeWriter(message,speed){
-
-text.innerHTML=""
-
-let i=0
-
-function typing(){
-
-if(i<message.length){
-
-text.innerHTML+=message.charAt(i)
-
-i++
-
-setTimeout(typing,speed)
-
-}
-
-}
-
-typing()
-
-}
 
 /* HEARTS */
 
@@ -509,9 +402,7 @@ setTimeout(()=>heart.remove(),8000)
 
 }
 
-function startHearts(){
-setInterval(createHeart,700)
-}
+setInterval(createHeart,800)
 
 /* STARS */
 
@@ -519,7 +410,7 @@ function createStars(){
 
 const stars=document.getElementById("stars")
 
-for(let i=0;i<350;i++){
+for(let i=0;i<300;i++){
 
 const star=document.createElement("div")
 
@@ -530,8 +421,6 @@ star.style.height=star.style.width
 
 star.style.top=Math.random()*100+"%"
 star.style.left=Math.random()*100+"%"
-
-star.style.animationDuration=(2+Math.random()*3)+"s"
 
 stars.appendChild(star)
 
@@ -621,9 +510,7 @@ letter.classList.add("show")
 }
 
 function closeLetter(){
-
 letter.classList.remove("show")
-
 }
 
 /* FULLSCREEN IMAGE */
