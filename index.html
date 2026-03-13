@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>100 Days With You</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@200;300;400&family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 
@@ -132,6 +132,18 @@ display:flex;
 flex-direction:column;
 align-items:center;
 text-align:center;
+position:relative;
+overflow:hidden;
+}
+
+#memoriesStars{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:0;
 }
 
 #memories h2{
@@ -144,6 +156,8 @@ color:transparent;
 -webkit-text-stroke:0.5px rgba(255,255,255,0.6);
 text-shadow:none;
 opacity:1;
+position:relative;
+z-index:1;
 }
 
 /* GALLERY — KEY FIX */
@@ -154,15 +168,24 @@ display:flex;
 justify-content:center;
 align-items:center;
 margin:20px 0;
+position:relative;
+z-index:1;
+}
+
+.polaroid-frame{
+background:#fff;
+padding:14px 14px 50px 14px;
+box-shadow:0 10px 40px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.4);
+transform:rotate(-1.5deg);
+display:inline-block;
 }
 
 .slider{
-width:350px;
-height:350px;
-position:relative; /* keeps absolute children contained */
-border-radius:20px;
+width:300px;
+height:300px;
+position:relative;
 overflow:hidden;
-box-shadow:0 0 40px rgba(255,77,109,0.3);
+display:block;
 }
 
 .slide{
@@ -192,6 +215,8 @@ color:transparent;
 -webkit-text-stroke:1px rgba(255,255,255,0.85);
 text-shadow:none;
 letter-spacing:3px;
+position:relative;
+z-index:1;
 }
 
 /* LOVE LETTER */
@@ -246,17 +271,20 @@ box-shadow:0 20px 60px rgba(0,0,0,0.5);
 }
 
 #letterBox h2{
-font-family:'Playfair Display', serif;
-font-size:28px;
+font-family:'Dancing Script', cursive;
+font-size:34px;
 color:#ff4d6d;
 margin-bottom:20px;
+font-weight:600;
 }
 
 #letterBox p{
-font-size:17px;
-line-height:1.8;
-color:#333;
-font-weight:300;
+font-family:'Dancing Script', cursive;
+font-size:21px;
+line-height:2;
+color:#444;
+font-weight:400;
+-webkit-text-stroke:0;
 }
 
 #letterBox button{
@@ -307,15 +335,19 @@ pointer-events:auto;
 <!-- MEMORIES -->
 <section id="memories">
 
+  <canvas id="memoriesStars"></canvas>
+
   <h2>Our Memories 📸</h2>
 
-  <!-- Wrapper ensures the slider is centered -->
+  <!-- Polaroid frame wraps the slider -->
   <div class="slider-wrapper">
-    <div class="slider">
-      <img src="photo1.jpg" class="slide active">
-      <img src="photo2.jpg" class="slide">
-      <img src="photo3.jpg" class="slide">
-      <img src="photo4.jpg" class="slide">
+    <div class="polaroid-frame">
+      <div class="slider">
+        <img src="photo1.jpg" class="slide active">
+        <img src="photo2.jpg" class="slide">
+        <img src="photo3.jpg" class="slide">
+        <img src="photo4.jpg" class="slide">
+      </div>
     </div>
   </div>
 
@@ -323,7 +355,7 @@ pointer-events:auto;
 
   <div id="counter"></div>
 
-  <button id="letterButton">Open a message 💌</button>
+  <button id="letterButton" style="position:relative;z-index:1;">Open a message 💌</button>
 
 </section>
 
@@ -452,6 +484,44 @@ document.getElementById("letterButton").onclick = ()=>{
 function closeLetter(){
   letter.classList.remove("show")
 }
+
+
+(function(){
+  const canvas = document.getElementById("memoriesStars")
+  const section = document.getElementById("memories")
+  const ctx = canvas.getContext("2d")
+
+  function resize(){
+    canvas.width = section.offsetWidth
+    canvas.height = section.offsetHeight
+  }
+  resize()
+  window.addEventListener("resize", resize)
+
+  const stars = []
+  for(let i=0; i<200; i++){
+    stars.push({
+      x: Math.random(),
+      y: Math.random(),
+      r: Math.random() * 1.5 + 0.3,
+      speed: Math.random() * 0.005 + 0.002,
+      phase: Math.random() * Math.PI * 2
+    })
+  }
+
+  function drawStars(t){
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    stars.forEach(s => {
+      const alpha = 0.3 + 0.7 * Math.abs(Math.sin(t * s.speed * 60 + s.phase))
+      ctx.beginPath()
+      ctx.arc(s.x * canvas.width, s.y * canvas.height, s.r, 0, Math.PI*2)
+      ctx.fillStyle = `rgba(255,255,255,${alpha})`
+      ctx.fill()
+    })
+    requestAnimationFrame(drawStars)
+  }
+  requestAnimationFrame(drawStars)
+})()
 
 </script>
 </body>
