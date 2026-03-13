@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta charset="UTF-8">
 <title>100 Days With You</title>
@@ -8,339 +7,445 @@
 
 <style>
 
-html{
-scroll-behavior:smooth;
-}
-
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
 body{
-margin:0;
-font-family:'Montserrat', sans-serif;
-color:white;
-overflow-x:hidden;
-background:black;
+  font-family:'Montserrat', sans-serif;
+  color:white;
+  overflow-x:hidden;
+  background:black;
 }
 
-/* INTRO */
+/* ── FILM GRAIN ── */
+#grain{
+  position:fixed;
+  top:-50%; left:-50%;
+  width:200%; height:200%;
+  pointer-events:none;
+  z-index:999;
+  opacity:0.045;
+  animation:grainShift 0.12s steps(1) infinite;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size:200px 200px;
+}
+@keyframes grainShift{
+  0%  { transform:translate(0,0) }
+  10% { transform:translate(-2%,-3%) }
+  20% { transform:translate(3%,2%) }
+  30% { transform:translate(-1%,4%) }
+  40% { transform:translate(4%,-1%) }
+  50% { transform:translate(-3%,1%) }
+  60% { transform:translate(2%,-4%) }
+  70% { transform:translate(-4%,3%) }
+  80% { transform:translate(1%,-2%) }
+  90% { transform:translate(-2%,4%) }
+  100%{ transform:translate(3%,-3%) }
+}
 
+/* ── LETTERBOX BARS ── */
+#letterboxTop, #letterboxBottom{
+  position:fixed;
+  left:0; width:100%;
+  height:48px;
+  background:black;
+  z-index:100;
+  pointer-events:none;
+}
+#letterboxTop{ top:0; }
+#letterboxBottom{ bottom:0; }
+
+/* ── INTRO ── */
 #intro{
-position:fixed;
-width:100%;
-height:100%;
-background:black;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:35px;
-text-align:center;
-z-index:10;
-transition:opacity 2s;
-font-family:'Cormorant Garamond', serif;
-font-style:italic;
-font-weight:300;
-letter-spacing:2px;
+  position:fixed;
+  width:100%; height:100%;
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:32px;
+  text-align:center;
+  z-index:50;
+  transition:opacity 2s;
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic;
+  font-weight:300;
+  letter-spacing:3px;
+}
+.hidden{ opacity:0; pointer-events:none; }
+
+/* ── SCENE TITLE CARD ── */
+#sceneCard{
+  position:fixed;
+  inset:0;
+  background:black;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:18px;
+  z-index:40;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.8s;
+}
+#sceneCard.show{ opacity:1; pointer-events:auto; }
+.scene-label{
+  font-family:'Montserrat', sans-serif;
+  font-size:10px;
+  font-weight:200;
+  letter-spacing:8px;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.35);
+}
+.scene-title{
+  font-family:'Cormorant Garamond', serif;
+  font-size:clamp(28px,5vw,54px);
+  font-weight:300;
+  letter-spacing:8px;
+  text-transform:uppercase;
+  color:transparent;
+  -webkit-text-stroke:0.8px rgba(255,255,255,0.85);
+}
+.scene-line{
+  width:60px; height:1px;
+  background:rgba(255,255,255,0.25);
 }
 
-.hidden{
-opacity:0;
-pointer-events:none;
-}
-
-/* HERO */
-
+/* ── HERO ── */
 #hero{
-height:100vh;
-position:relative;
-background-image:url("background.jpg");
-background-size:cover;
-background-position:center;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
+  height:100vh;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:0 20px;
 }
-
-/* STARS */
-
+#heroBg{
+  position:absolute;
+  top:-15%; left:0;
+  width:100%; height:130%;
+  background-image:url("background.jpg");
+  background-size:cover;
+  background-position:center;
+  will-change:transform;
+}
+#hero::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse at center, transparent 25%, rgba(0,0,0,0.8) 100%);
+  pointer-events:none;
+}
 #stars{
-position:absolute;
-width:100%;
-height:100%;
-top:0;
-left:0;
-pointer-events:none;
+  position:absolute;
+  width:100%; height:100%;
+  top:0; left:0;
+  pointer-events:none;
+  z-index:1;
 }
-
 .star{
-position:absolute;
-background:white;
-border-radius:50%;
-animation:twinkle 3s infinite;
+  position:absolute;
+  background:white;
+  border-radius:50%;
+  animation:twinkle 3s infinite;
 }
-
 @keyframes twinkle{
-0%{opacity:0.2}
-50%{opacity:1}
-100%{opacity:0.2}
+  0%{ opacity:0.2 }
+  50%{ opacity:1 }
+  100%{ opacity:0.2 }
 }
+.hero-content{ position:relative; z-index:2; }
 
 h1{
-font-family:'Cormorant Garamond', serif;
-font-size:68px;
-font-weight:300;
-margin:0;
-letter-spacing:6px;
-text-transform:uppercase;
-color:transparent;
--webkit-text-stroke:1px rgba(255,255,255,0.9);
-text-shadow:none;
+  font-family:'Cormorant Garamond', serif;
+  font-size:clamp(38px,8vw,78px);
+  font-weight:300;
+  letter-spacing:8px;
+  text-transform:uppercase;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,0.9);
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity 1.6s ease, transform 1.6s ease;
 }
+h1.reveal{ opacity:1; transform:translateY(0); }
 
-p{
-font-size:13px;
-font-weight:200;
-letter-spacing:3px;
-text-transform:uppercase;
-line-height:2.2;
-color:transparent;
--webkit-text-stroke:0.5px rgba(255,255,255,0.7);
-text-shadow:none;
+.hero-sub{
+  font-size:11px;
+  font-weight:200;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  color:transparent;
+  -webkit-text-stroke:0.4px rgba(255,255,255,0.55);
+  line-height:2.6;
+  margin-top:22px;
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity 1.6s ease 0.6s, transform 1.6s ease 0.6s;
 }
+.hero-sub.reveal{ opacity:1; transform:translateY(0); }
 
-/* HEARTS */
-
+/* ── HEARTS ── */
 .heart{
-position:fixed;
-bottom:-20px;
-animation:float 8s linear infinite;
-opacity:0.7;
-pointer-events:none;
+  position:fixed;
+  bottom:-20px;
+  animation:floatHeart 8s linear infinite;
+  pointer-events:none;
+  z-index:5;
+}
+@keyframes floatHeart{
+  0%{ transform:translateY(0); opacity:0 }
+  20%{ opacity:0.7 }
+  100%{ transform:translateY(-100vh) translateX(40px); opacity:0 }
 }
 
-@keyframes float{
-0%{transform:translateY(0);opacity:0}
-20%{opacity:1}
-100%{transform:translateY(-100vh) translateX(40px);opacity:0}
-}
-
-/* SECTION */
-
+/* ── MEMORIES ── */
 #memories{
-background:black;
-padding:100px 20px;
-display:flex;
-flex-direction:column;
-align-items:center;
-text-align:center;
-position:relative;
-overflow:hidden;
+  background:black;
+  padding:130px 20px 120px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+#memoriesStars{
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  pointer-events:none;
+  z-index:0;
 }
 
-#memoriesStars{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-z-index:0;
+/* scroll reveal */
+.reveal-on-scroll{
+  opacity:0;
+  transform:translateY(40px);
+  transition:opacity 1s ease, transform 1s ease;
+  position:relative;
+  z-index:1;
 }
+.reveal-on-scroll.revealed{ opacity:1; transform:translateY(0); }
 
 #memories h2{
-font-family:'Montserrat', sans-serif;
-font-weight:200;
-font-size:13px;
-letter-spacing:5px;
-text-transform:uppercase;
-color:transparent;
--webkit-text-stroke:0.5px rgba(255,255,255,0.6);
-text-shadow:none;
-opacity:1;
-position:relative;
-z-index:1;
+  font-family:'Montserrat', sans-serif;
+  font-weight:200;
+  font-size:11px;
+  letter-spacing:6px;
+  text-transform:uppercase;
+  color:transparent;
+  -webkit-text-stroke:0.5px rgba(255,255,255,0.55);
 }
 
-/* GALLERY — KEY FIX */
-
+/* ── POLAROID + KEN BURNS ── */
 .slider-wrapper{
-width:100%;
-display:flex;
-justify-content:center;
-align-items:center;
-margin:20px 0;
-position:relative;
-z-index:1;
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:32px 0;
+  position:relative;
+  z-index:1;
 }
-
 .polaroid-frame{
-background:#fff;
-padding:14px 14px 50px 14px;
-box-shadow:0 10px 40px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.4);
-transform:rotate(-1.5deg);
-display:inline-block;
+  background:#fff;
+  padding:14px 14px 54px 14px;
+  box-shadow:0 20px 70px rgba(0,0,0,0.85), 0 4px 14px rgba(0,0,0,0.5);
+  transform:rotate(-1.5deg);
+  display:inline-block;
+  transition:transform 0.7s ease;
 }
-
+.polaroid-frame:hover{ transform:rotate(0deg) scale(1.03); }
 .slider{
-width:300px;
-height:300px;
-position:relative;
-overflow:hidden;
-display:block;
+  width:300px; height:300px;
+  position:relative;
+  overflow:hidden;
+  display:block;
 }
-
 .slide{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-object-fit:cover;
-opacity:0;
-transition:opacity 1s;
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity 1.2s ease;
+}
+.slide.active{ opacity:1; }
+.slide:nth-child(1).active{ animation:kb1 8s ease-in-out forwards; }
+.slide:nth-child(2).active{ animation:kb2 8s ease-in-out forwards; }
+.slide:nth-child(3).active{ animation:kb3 8s ease-in-out forwards; }
+.slide:nth-child(4).active{ animation:kb4 8s ease-in-out forwards; }
+@keyframes kb1{ 0%{ transform:scale(1) translate(0,0) } 100%{ transform:scale(1.12) translate(-2%,-2%) } }
+@keyframes kb2{ 0%{ transform:scale(1.08) translate(-2%,0) } 100%{ transform:scale(1) translate(2%,2%) } }
+@keyframes kb3{ 0%{ transform:scale(1) translate(2%,2%) } 100%{ transform:scale(1.1) translate(-1%,-3%) } }
+@keyframes kb4{ 0%{ transform:scale(1.06) translate(0,-2%) } 100%{ transform:scale(1) translate(1%,2%) } }
+
+/* Cinematic color grade overlay */
+.slider::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg, rgba(255,190,90,0.07) 0%, rgba(60,30,100,0.07) 100%);
+  mix-blend-mode:multiply;
+  pointer-events:none;
+  z-index:2;
 }
 
-.slide.active{
-opacity:1;
-}
-
-/* COUNTER */
-
+/* ── COUNTER ── */
 #counter{
-font-size:36px;
-margin-top:10px;
-font-family:'Cormorant Garamond', serif;
-font-weight:300;
-font-style:italic;
-color:transparent;
--webkit-text-stroke:1px rgba(255,255,255,0.85);
-text-shadow:none;
-letter-spacing:3px;
-position:relative;
-z-index:1;
+  font-size:clamp(26px,5vw,42px);
+  margin-top:12px;
+  font-family:'Cormorant Garamond', serif;
+  font-weight:300;
+  font-style:italic;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,0.85);
+  letter-spacing:4px;
+  position:relative;
+  z-index:1;
 }
 
-/* LOVE LETTER */
-
+/* ── OPEN MESSAGE BUTTON ── */
 #letterButton{
-margin-top:50px;
-padding:14px 30px;
-font-size:18px;
-font-family:'Montserrat', sans-serif;
-font-weight:200;
-letter-spacing:3px;
-font-size:11px;
-text-transform:uppercase;
-border:none;
-border-radius:30px;
-background:linear-gradient(135deg,#ff4d6d,#ff8fa3);
-color:white;
-cursor:pointer;
-box-shadow:0 4px 20px rgba(255,77,109,0.4);
-transition:transform 0.2s, box-shadow 0.2s;
+  margin-top:52px;
+  padding:14px 40px;
+  font-family:'Montserrat', sans-serif;
+  font-weight:200;
+  font-size:10px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  border:1px solid rgba(255,255,255,0.3);
+  border-radius:0;
+  background:transparent;
+  color:rgba(255,255,255,0.8);
+  cursor:pointer;
+  position:relative;
+  z-index:1;
+  transition:background 0.3s, border-color 0.3s, letter-spacing 0.4s, color 0.3s;
 }
-
 #letterButton:hover{
-transform:translateY(-2px);
-box-shadow:0 8px 30px rgba(255,77,109,0.5);
+  background:rgba(255,255,255,0.07);
+  border-color:rgba(255,255,255,0.65);
+  letter-spacing:7px;
+  color:white;
 }
 
+/* ── LOVE LETTER ── */
 #letter{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.85);
-display:flex;
-justify-content:center;
-align-items:center;
-opacity:0;
-pointer-events:none;
-transition:opacity 0.5s;
-z-index:20;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.9);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.6s;
+  z-index:60;
 }
-
 #letterBox{
-background:white;
-color:#1a1a1a;
-padding:50px 40px;
-border-radius:20px;
-max-width:480px;
-text-align:center;
-box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  background:#faf8f4;
+  color:#1a1a1a;
+  padding:54px 46px;
+  max-width:500px;
+  width:90%;
+  text-align:center;
+  box-shadow:0 30px 90px rgba(0,0,0,0.7);
+  position:relative;
 }
-
+#letterBox::before{
+  content:'';
+  position:absolute;
+  top:-8px; left:0; right:0;
+  height:8px;
+  background:
+    linear-gradient(135deg, #faf8f4 25%, transparent 25%) -8px 0,
+    linear-gradient(225deg, #faf8f4 25%, transparent 25%) -8px 0,
+    linear-gradient(315deg, #faf8f4 25%, transparent 25%),
+    linear-gradient( 45deg, #faf8f4 25%, transparent 25%);
+  background-size:16px 8px;
+  background-color:transparent;
+}
 #letterBox h2{
-font-family:'Dancing Script', cursive;
-font-size:34px;
-color:#ff4d6d;
-margin-bottom:20px;
-font-weight:600;
+  font-family:'Dancing Script', cursive;
+  font-size:36px;
+  color:#b03030;
+  margin-bottom:26px;
+  font-weight:600;
 }
-
 #letterBox p{
-font-family:'Dancing Script', cursive;
-font-size:21px;
-line-height:2;
-color:#444;
-font-weight:400;
--webkit-text-stroke:0;
+  font-family:'Dancing Script', cursive;
+  font-size:21px;
+  line-height:2.1;
+  color:#3a2a2a;
+  font-weight:400;
+  -webkit-text-stroke:0;
 }
-
 #letterBox button{
-margin-top:25px;
-padding:10px 24px;
-font-size:15px;
-border:2px solid #ff4d6d;
-border-radius:20px;
-background:transparent;
-color:#ff4d6d;
-cursor:pointer;
-transition:all 0.2s;
+  margin-top:32px;
+  padding:10px 30px;
+  font-family:'Montserrat', sans-serif;
+  font-size:10px;
+  font-weight:300;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  border:1px solid rgba(0,0,0,0.25);
+  background:transparent;
+  color:#666;
+  cursor:pointer;
+  transition:all 0.2s;
 }
-
-#letterBox button:hover{
-background:#ff4d6d;
-color:white;
-}
-
-#letter.show{
-opacity:1;
-pointer-events:auto;
-}
+#letterBox button:hover{ background:#1a1a1a; color:white; border-color:#1a1a1a; }
+#letter.show{ opacity:1; pointer-events:auto; }
 
 </style>
 </head>
-
 <body>
+
+<!-- Film grain overlay -->
+<div id="grain"></div>
+
+<!-- Cinematic letterbox bars -->
+<div id="letterboxTop"></div>
+<div id="letterboxBottom"></div>
 
 <!-- INTRO -->
 <div id="intro">
-  <div id="text">
-    Click anywhere<br>
-    Turn on your sound 🎧
-  </div>
+  <div id="text">Click anywhere<br>Turn on your sound 🎧</div>
+</div>
+
+<!-- SCENE TITLE CARD -->
+<div id="sceneCard">
+  <div class="scene-label">Chapter I</div>
+  <div class="scene-line"></div>
+  <div class="scene-title">Our Story</div>
+  <div class="scene-line"></div>
 </div>
 
 <!-- HERO -->
 <section id="hero">
+  <div id="heroBg"></div>
   <div id="stars"></div>
-  <h1>100 Days With You ❤️</h1>
-  <p>
-    Thank you for being in my life.<br>
-    These days with you mean the world to me.
-  </p>
+  <div class="hero-content">
+    <h1 id="mainTitle">100 Days With You ❤️</h1>
+    <div class="hero-sub" id="heroSub">
+      Thank you for being in my life.<br>
+      These days with you mean the world to me.
+    </div>
+  </div>
 </section>
 
 <!-- MEMORIES -->
 <section id="memories">
-
   <canvas id="memoriesStars"></canvas>
 
-  <h2>Our Memories 📸</h2>
+  <h2 class="reveal-on-scroll">Our Memories 📸</h2>
 
-  <!-- Polaroid frame wraps the slider -->
-  <div class="slider-wrapper">
+  <div class="slider-wrapper reveal-on-scroll" style="transition-delay:0.2s">
     <div class="polaroid-frame">
       <div class="slider">
         <img src="photo1.jpg" class="slide active">
@@ -351,12 +456,9 @@ pointer-events:auto;
     </div>
   </div>
 
-  <h2>We've been together for</h2>
-
-  <div id="counter"></div>
-
-  <button id="letterButton" style="position:relative;z-index:1;">Open a message 💌</button>
-
+  <h2 class="reveal-on-scroll" style="transition-delay:0.1s">We've been together for</h2>
+  <div id="counter" class="reveal-on-scroll" style="transition-delay:0.25s"></div>
+  <button id="letterButton" class="reveal-on-scroll" style="transition-delay:0.35s">Open a message 💌</button>
 </section>
 
 <!-- LOVE LETTER POPUP -->
@@ -381,146 +483,151 @@ pointer-events:auto;
 
 <script>
 
-const intro = document.getElementById("intro")
-const text = document.getElementById("text")
-const music = document.getElementById("music")
+const intro     = document.getElementById("intro")
+const text      = document.getElementById("text")
+const music     = document.getElementById("music")
+const sceneCard = document.getElementById("sceneCard")
 
 document.body.addEventListener("click", startExperience, {once:true})
 
 function startExperience(){
-  typeWriter("I made something for you...", 80)
+  typeWriter("I made something for you...", 75)
+
   music.volume = 0
-  music.play()
+  music.play().catch(()=>{})
   let fade = setInterval(()=>{
-    if(music.volume < 0.5){
-      music.volume += 0.02
-    } else {
-      clearInterval(fade)
-    }
+    if(music.volume < 0.45){ music.volume = Math.min(music.volume+0.015, 0.45) }
+    else clearInterval(fade)
   }, 200)
+
+  // Fade out intro
   setTimeout(()=>{
     intro.classList.add("hidden")
     setTimeout(()=>{ intro.style.display="none" }, 2000)
-    startHearts()
-  }, 4500)
+  }, 4200)
+
+  // Scene title card
+  setTimeout(()=>{
+    sceneCard.classList.add("show")
+    setTimeout(()=>{
+      sceneCard.classList.remove("show")
+      setTimeout(()=>{
+        document.getElementById("mainTitle").classList.add("reveal")
+        document.getElementById("heroSub").classList.add("reveal")
+        startHearts()
+      }, 900)
+    }, 2600)
+  }, 5400)
 }
 
 /* TYPING */
-function typeWriter(textMessage, speed){
+function typeWriter(msg, speed){
   text.innerHTML = ""
   let i = 0
-  function typing(){
-    if(i < textMessage.length){
-      text.innerHTML += textMessage.charAt(i)
-      i++
-      setTimeout(typing, speed)
-    }
+  function type(){
+    if(i < msg.length){ text.innerHTML += msg.charAt(i++); setTimeout(type, speed) }
   }
-  typing()
+  type()
 }
 
 /* HEARTS */
 function createHeart(){
-  const heart = document.createElement("div")
-  heart.className = "heart"
-  heart.innerHTML = "❤️"
-  heart.style.left = Math.random()*100 + "vw"
-  heart.style.fontSize = (15 + Math.random()*25) + "px"
-  document.body.appendChild(heart)
-  setTimeout(()=>{ heart.remove() }, 8000)
+  const h = document.createElement("div")
+  h.className = "heart"
+  h.innerHTML = "❤️"
+  h.style.left = Math.random()*100+"vw"
+  h.style.fontSize = (13+Math.random()*22)+"px"
+  document.body.appendChild(h)
+  setTimeout(()=> h.remove(), 8000)
 }
+function startHearts(){ setInterval(createHeart, 800) }
 
-function startHearts(){
-  setInterval(createHeart, 700)
-}
-
-/* STARS */
-function createStars(){
-  const stars = document.getElementById("stars")
-  for(let i=0; i<120; i++){
-    const star = document.createElement("div")
-    star.className = "star"
-    star.style.width = Math.random()*3 + "px"
-    star.style.height = star.style.width
-    star.style.top = Math.random()*100 + "%"
-    star.style.left = Math.random()*100 + "%"
-    star.style.animationDuration = (2 + Math.random()*3) + "s"
-    stars.appendChild(star)
+/* HERO STARS */
+;(function(){
+  const container = document.getElementById("stars")
+  for(let i=0;i<130;i++){
+    const s = document.createElement("div")
+    s.className = "star"
+    s.style.width = Math.random()*2.5+"px"
+    s.style.height = s.style.width
+    s.style.top    = Math.random()*100+"%"
+    s.style.left   = Math.random()*100+"%"
+    s.style.animationDuration = (2+Math.random()*3)+"s"
+    s.style.animationDelay    = (Math.random()*4)+"s"
+    container.appendChild(s)
   }
-}
+})()
 
-createStars()
+/* PARALLAX */
+const heroBg = document.getElementById("heroBg")
+window.addEventListener("scroll", ()=>{
+  heroBg.style.transform = `translateY(${window.scrollY*0.4}px)`
+}, {passive:true})
 
-/* GALLERY */
+/* GALLERY + KEN BURNS */
 let slides = document.querySelectorAll(".slide")
-let index = 0
-
+let idx = 0
 setInterval(()=>{
-  slides[index].classList.remove("active")
-  index = (index+1) % slides.length
-  slides[index].classList.add("active")
-}, 4000)
+  slides[idx].classList.remove("active")
+  idx = (idx+1) % slides.length
+  const s = slides[idx]
+  // Restart CSS animation
+  s.style.animation = "none"
+  s.offsetHeight
+  s.style.animation = ""
+  s.classList.add("active")
+}, 5000)
 
 /* COUNTER */
 const startDate = new Date("2025-12-24")
-
 function updateCounter(){
-  const now = new Date()
-  const diff = now - startDate
-  const days = Math.floor(diff / (1000*60*60*24))
-  document.getElementById("counter").innerHTML = days + " days ❤️"
+  const days = Math.floor((new Date()-startDate)/(1000*60*60*24))
+  document.getElementById("counter").innerHTML = days+" days ❤️"
 }
-
 updateCounter()
 setInterval(updateCounter, 60000)
 
+/* SCROLL REVEAL */
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("revealed") })
+}, {threshold:0.15})
+document.querySelectorAll(".reveal-on-scroll").forEach(el=>observer.observe(el))
+
 /* LOVE LETTER */
 const letter = document.getElementById("letter")
+document.getElementById("letterButton").onclick = ()=> letter.classList.add("show")
+function closeLetter(){ letter.classList.remove("show") }
 
-document.getElementById("letterButton").onclick = ()=>{
-  letter.classList.add("show")
-}
-
-function closeLetter(){
-  letter.classList.remove("show")
-}
-
-
-(function(){
+/* MEMORIES STARFIELD */
+;(function(){
   const canvas = document.getElementById("memoriesStars")
   const section = document.getElementById("memories")
   const ctx = canvas.getContext("2d")
-
   function resize(){
-    canvas.width = section.offsetWidth
+    canvas.width  = section.offsetWidth
     canvas.height = section.offsetHeight
   }
   resize()
   window.addEventListener("resize", resize)
-
-  const stars = []
-  for(let i=0; i<200; i++){
-    stars.push({
-      x: Math.random(),
-      y: Math.random(),
-      r: Math.random() * 1.5 + 0.3,
-      speed: Math.random() * 0.005 + 0.002,
-      phase: Math.random() * Math.PI * 2
-    })
-  }
-
-  function drawStars(t){
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    stars.forEach(s => {
-      const alpha = 0.3 + 0.7 * Math.abs(Math.sin(t * s.speed * 60 + s.phase))
+  const stars = Array.from({length:240}, ()=>({
+    x:     Math.random(),
+    y:     Math.random(),
+    r:     Math.random()*1.6+0.2,
+    speed: Math.random()*0.004+0.001,
+    phase: Math.random()*Math.PI*2
+  }))
+  function draw(t){
+    ctx.clearRect(0,0,canvas.width,canvas.height)
+    stars.forEach(s=>{
+      const a = 0.15+0.85*Math.abs(Math.sin(t*s.speed*60+s.phase))
       ctx.beginPath()
-      ctx.arc(s.x * canvas.width, s.y * canvas.height, s.r, 0, Math.PI*2)
-      ctx.fillStyle = `rgba(255,255,255,${alpha})`
+      ctx.arc(s.x*canvas.width, s.y*canvas.height, s.r, 0, Math.PI*2)
+      ctx.fillStyle = `rgba(255,255,255,${a.toFixed(2)})`
       ctx.fill()
     })
-    requestAnimationFrame(drawStars)
+    requestAnimationFrame(draw)
   }
-  requestAnimationFrame(drawStars)
+  requestAnimationFrame(draw)
 })()
 
 </script>
