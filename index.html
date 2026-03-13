@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 
 <head>
@@ -58,43 +59,60 @@ text-align:center;
 
 }
 
-/* STARS */
+/* MOBILE FIX */
+
+@media (max-width:768px){
+
+#hero{
+
+background-position:65% center;
+
+}
+
+}
+
+/* TEXT OUTLINE */
+
+h1{
+font-size:70px;
+margin:0;
+
+text-shadow:
+2px 2px 10px rgba(0,0,0,0.9),
+0 0 20px rgba(0,0,0,0.9);
+
+-webkit-text-stroke:1px black;
+}
+
+p{
+font-size:22px;
+
+text-shadow:
+2px 2px 8px rgba(0,0,0,0.9);
+}
+
+/* STARRY SKY */
 
 #stars{
-
 position:absolute;
 width:100%;
 height:100%;
 top:0;
 left:0;
 pointer-events:none;
-
 }
 
 .star{
-
 position:absolute;
 background:white;
 border-radius:50%;
 animation:twinkle 3s infinite;
-
 }
 
 @keyframes twinkle{
-
 0%{opacity:0.2}
 50%{opacity:1}
 100%{opacity:0.2}
-
-}
-
-h1{
-font-size:70px;
-margin:0;
-}
-
-p{
-font-size:22px;
 }
 
 /* HEARTS */
@@ -117,13 +135,44 @@ opacity:0
 
 }
 
-/* SECTION */
+/* MEMORIES */
 
 #memories{
 
 background:black;
 padding:120px 0;
 text-align:center;
+position:relative;
+
+}
+
+/* SHOOTING STARS */
+
+.shooting-star{
+
+position:absolute;
+width:3px;
+height:3px;
+background:white;
+border-radius:50%;
+
+box-shadow:0 0 10px white;
+
+animation:shoot 3s linear infinite;
+
+}
+
+@keyframes shoot{
+
+0%{
+transform:translate(0,0);
+opacity:1;
+}
+
+100%{
+transform:translate(-600px,300px);
+opacity:0;
+}
 
 }
 
@@ -165,28 +214,36 @@ margin-top:30px;
 
 }
 
-/* LOVE LETTER */
+/* LOVE LETTER BUTTON */
 
 #letterButton{
 
 margin-top:50px;
 padding:12px 25px;
 font-size:18px;
+
 border:none;
 border-radius:20px;
+
 background:#ff4d6d;
 color:white;
+
 cursor:pointer;
 
 }
 
+/* LOVE LETTER POPUP */
+
 #letter{
 
 position:fixed;
+
 top:0;
 left:0;
+
 width:100%;
 height:100%;
+
 background:rgba(0,0,0,0.8);
 
 display:flex;
@@ -195,6 +252,7 @@ align-items:center;
 
 opacity:0;
 pointer-events:none;
+
 transition:opacity 0.5s;
 
 }
@@ -203,8 +261,11 @@ transition:opacity 0.5s;
 
 background:white;
 color:black;
+
 padding:40px;
+
 border-radius:15px;
+
 max-width:500px;
 text-align:center;
 
@@ -218,6 +279,7 @@ pointer-events:auto;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -228,7 +290,7 @@ pointer-events:auto;
 
 <div id="text">
 
-Click anywhere<br>
+Click anywhere <br>
 Turn on your sound 🎧
 
 </div>
@@ -244,8 +306,10 @@ Turn on your sound 🎧
 <h1>100 Days With You ❤️</h1>
 
 <p>
+
 Thank you for being in my life.<br>
 These days with you mean the world to me.
+
 </p>
 
 </section>
@@ -273,7 +337,7 @@ These days with you mean the world to me.
 
 </section>
 
-<!-- LOVE LETTER POPUP -->
+<!-- LOVE LETTER -->
 
 <div id="letter">
 
@@ -283,10 +347,10 @@ These days with you mean the world to me.
 
 <p>
 
-These 100 days with you have been some of the happiest moments of my life.  
+These 100 days with you have been some of the happiest moments of my life.
 Every laugh, every conversation, every moment together means so much to me.
 
-Thank you for being here with me.  
+Thank you for being here with me.
 I hope we will continue making many more beautiful memories together.
 
 I love you.
@@ -309,9 +373,11 @@ I love you.
 
 <script>
 
-const intro = document.getElementById("intro")
-const text = document.getElementById("text")
-const music = document.getElementById("music")
+/* INTRO + MUSIC */
+
+const intro=document.getElementById("intro")
+const text=document.getElementById("text")
+const music=document.getElementById("music")
 
 document.body.addEventListener("click",startExperience,{once:true})
 
@@ -348,16 +414,17 @@ startHearts()
 
 /* TYPING */
 
-function typeWriter(textMessage,speed){
+function typeWriter(message,speed){
 
 text.innerHTML=""
+
 let i=0
 
 function typing(){
 
-if(i<textMessage.length){
+if(i<message.length){
 
-text.innerHTML+=textMessage.charAt(i)
+text.innerHTML+=message.charAt(i)
 
 i++
 
@@ -385,9 +452,7 @@ heart.style.fontSize=(15+Math.random()*25)+"px"
 
 document.body.appendChild(heart)
 
-setTimeout(()=>{
-heart.remove()
-},8000)
+setTimeout(()=>heart.remove(),8000)
 
 }
 
@@ -425,9 +490,29 @@ stars.appendChild(star)
 
 createStars()
 
+/* SHOOTING STARS */
+
+function createShootingStar(){
+
+const star=document.createElement("div")
+
+star.className="shooting-star"
+
+star.style.top=Math.random()*200+"px"
+star.style.left=Math.random()*window.innerWidth+"px"
+
+document.getElementById("memories").appendChild(star)
+
+setTimeout(()=>star.remove(),3000)
+
+}
+
+setInterval(createShootingStar,2000)
+
 /* GALLERY */
 
 let slides=document.querySelectorAll(".slide")
+
 let index=0
 
 setInterval(()=>{
@@ -457,6 +542,7 @@ document.getElementById("counter").innerHTML=days+" days ❤️"
 }
 
 updateCounter()
+
 setInterval(updateCounter,60000)
 
 /* LOVE LETTER */
