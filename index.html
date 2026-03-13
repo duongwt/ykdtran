@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <meta charset="UTF-8">
 <title>100 Days With You</title>
 
@@ -30,7 +29,7 @@ flex-direction:column;
 text-align:center;
 }
 
-/* INTRO OVERLAY */
+/* INTRO SCREEN */
 
 #intro{
 position:fixed;
@@ -45,8 +44,6 @@ font-size:34px;
 transition:opacity 3s;
 }
 
-/* TEXT ANIMATION */
-
 #text{
 transition:opacity 2s;
 }
@@ -60,7 +57,7 @@ opacity:0;
 pointer-events:none;
 }
 
-/* MAIN TEXT STYLE */
+/* MAIN TEXT */
 
 h1{
 font-size:64px;
@@ -72,8 +69,31 @@ font-size:24px;
 margin-top:20px;
 }
 
-</style>
+/* HEART ANIMATION */
 
+.heart{
+position:fixed;
+bottom:-50px;
+font-size:20px;
+animation:float 8s linear infinite;
+opacity:0.7;
+}
+
+@keyframes float{
+0%{
+transform:translateY(0) translateX(0);
+opacity:0;
+}
+20%{
+opacity:1;
+}
+100%{
+transform:translateY(-100vh) translateX(50px);
+opacity:0;
+}
+}
+
+</style>
 </head>
 
 <body>
@@ -85,26 +105,26 @@ margin-top:20px;
 <h1>100 Days With You ❤️</h1>
 
 <p>
-Thank you for being in my life.
+Thank you for being in my life.<br>
 These 100 days mean the world to me.
 </p>
 
 </div>
 
-<!-- INTRO SCREEN -->
+<!-- INTRO -->
 
 <div id="intro">
 
 <div id="text">
 
-Please use a computer <br>
+Please use a computer<br>
 and turn on your sound 🎧
 
 </div>
 
 </div>
 
-<!-- BACKGROUND MUSIC -->
+<!-- MUSIC -->
 
 <audio id="music" loop>
 <source src="music.mp3" type="audio/mpeg">
@@ -135,14 +155,49 @@ setTimeout(()=>{
 text.classList.add("hidden")
 },8000)
 
+/* TYPING EFFECT */
+
+function typeWriter(message, speed){
+
+text.innerHTML=""
+let i=0
+
+function typing(){
+
+if(i<message.length){
+text.innerHTML+=message.charAt(i)
+i++
+setTimeout(typing,speed)
+}
+
+}
+
+typing()
+
+}
+
 /* MESSAGE 4 */
 
 setTimeout(()=>{
-text.innerHTML="I made something for you..."
+
 text.classList.remove("hidden")
 
-music.volume = 0.5
+typeWriter("I made something for you...",80)
+
+/* start music */
+
+music.volume=0
 music.play()
+
+let fade=setInterval(()=>{
+
+if(music.volume<0.5){
+music.volume+=0.02
+}else{
+clearInterval(fade)
+}
+
+},200)
 
 },10000)
 
@@ -150,13 +205,39 @@ music.play()
 
 setTimeout(()=>{
 text.classList.add("hidden")
-},13000)
+},13500)
 
-/* FADE INTO MAIN PAGE */
+/* FADE INTRO */
 
 setTimeout(()=>{
 intro.classList.add("fadeOut")
-},15000)
+startHearts()
+},15500)
+
+/* HEART GENERATOR */
+
+function createHeart(){
+
+const heart=document.createElement("div")
+heart.className="heart"
+heart.innerHTML="❤️"
+
+heart.style.left=Math.random()*100+"vw"
+heart.style.fontSize=(15+Math.random()*25)+"px"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>{
+heart.remove()
+},8000)
+
+}
+
+function startHearts(){
+
+setInterval(createHeart,800)
+
+}
 
 </script>
 
