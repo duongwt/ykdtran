@@ -7,15 +7,12 @@
 
 <style>
 
-html{
-scroll-behavior:smooth;
-}
-
 body{
 margin:0;
 font-family:Arial;
 background:black;
 color:white;
+text-align:center;
 overflow-x:hidden;
 }
 
@@ -23,14 +20,11 @@ overflow-x:hidden;
 
 #hero{
 height:100vh;
-background-image:url("background.jpg");
-background-size:cover;
-background-position:center;
+background:url("background.jpg") center/cover;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-text-align:center;
 }
 
 h1{
@@ -44,6 +38,56 @@ font-size:22px;
 text-shadow:0 0 10px black;
 }
 
+/* MEMORIES */
+
+#memories{
+padding:120px 0;
+position:relative;
+}
+
+/* STAR SKY */
+
+#stars{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+}
+
+.star{
+position:absolute;
+width:2px;
+height:2px;
+background:white;
+border-radius:50%;
+opacity:0.8;
+animation:twinkle 2s infinite;
+}
+
+@keyframes twinkle{
+0%{opacity:0.2}
+50%{opacity:1}
+100%{opacity:0.2}
+}
+
+/* SHOOTING STAR */
+
+.shooting{
+position:absolute;
+width:2px;
+height:2px;
+background:white;
+box-shadow:0 0 10px white;
+animation:shoot 2s linear forwards;
+}
+
+@keyframes shoot{
+0%{transform:translate(0,0);opacity:1}
+100%{transform:translate(-600px,300px);opacity:0}
+}
+
 /* HEARTS */
 
 .heart{
@@ -55,123 +99,29 @@ animation:float 8s linear infinite;
 @keyframes float{
 0%{transform:translateY(0);opacity:0}
 20%{opacity:1}
-100%{
-transform:translateY(-100vh) translateX(40px);
-opacity:0
-}
+100%{transform:translateY(-100vh) translateX(40px);opacity:0}
 }
 
-/* MEMORIES */
+/* SINGLE GALLERY */
 
-#memories{
-background:black;
-padding:120px 0;
-text-align:center;
-position:relative;
-overflow:hidden;
-}
+.gallery{
 
-/* MILKY WAY */
-
-#milkyway{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:
-radial-gradient(
-ellipse at 50% 60%,
-rgba(255,255,255,0.15),
-rgba(255,255,255,0.05),
-transparent 60%
-);
-filter:blur(60px);
-}
-
-/* STARS */
-
-#stars{
-position:absolute;
-width:100%;
-height:100%;
-top:0;
-left:0;
-}
-
-.star{
-position:absolute;
-background:white;
-border-radius:50%;
-box-shadow:0 0 6px white,0 0 12px white;
-animation:twinkle 2s infinite;
-}
-
-@keyframes twinkle{
-0%{opacity:0.3}
-50%{opacity:1}
-100%{opacity:0.3}
-}
-
-/* SHOOTING STAR */
-
-.shooting-star{
-position:absolute;
-width:2px;
-height:2px;
-background:white;
-border-radius:50%;
-box-shadow:0 0 10px white,0 0 20px white;
-animation:shoot 2s linear forwards;
-}
-
-@keyframes shoot{
-0%{
-transform:translate(0,0);
-opacity:1;
-}
-100%{
-transform:translate(-800px,400px);
-opacity:0;
-}
-}
-
-/* GALLERY */
-
-.gallery-row{
-display:flex;
-justify-content:center;
-align-items:center;
-gap:80px;
-margin-top:40px;
-flex-wrap:wrap;
-}
-
-/* PHOTO FRAME (FIXED SIZE) */
-
-.frame{
-
-width:240px;
+width:260px;
 height:420px;
 
-background:white;
+margin:40px auto;
 
-border-radius:10px;
+border-radius:15px;
+
+overflow:hidden;
 
 box-shadow:0 10px 25px rgba(0,0,0,0.6);
 
 position:relative;
-overflow:hidden;
-
-transition:0.4s;
 
 }
 
-.frame:hover{
-transform:scale(1.05);
-}
-
-/* IMAGE FIX */
+/* IMAGE */
 
 .slide{
 
@@ -181,12 +131,9 @@ width:100%;
 height:100%;
 
 object-fit:cover;
-object-position:center;
 
 opacity:0;
-transition:opacity 1s;
-
-cursor:pointer;
+transition:1s;
 
 }
 
@@ -197,30 +144,21 @@ opacity:1;
 /* COUNTER */
 
 #counter{
-font-size:35px;
-margin-top:30px;
+font-size:34px;
+margin-top:20px;
 }
 
 /* BUTTON */
 
-#letterButton{
-
+button{
 margin-top:40px;
-
 padding:12px 25px;
-
 font-size:18px;
-
 border:none;
-
 border-radius:20px;
-
 background:#ff4d6d;
-
 color:white;
-
 cursor:pointer;
-
 }
 
 /* LETTER */
@@ -230,7 +168,6 @@ cursor:pointer;
 position:fixed;
 top:0;
 left:0;
-
 width:100%;
 height:100%;
 
@@ -247,59 +184,19 @@ transition:0.5s;
 
 }
 
-#letterBox{
-
-background:white;
-color:black;
-
-padding:40px;
-
-border-radius:15px;
-
-max-width:500px;
-
-text-align:center;
-
-}
-
 #letter.show{
 opacity:1;
 pointer-events:auto;
 }
 
-/* FULLSCREEN */
+#letterBox{
 
-#fullscreen{
+background:white;
+color:black;
+padding:40px;
+border-radius:15px;
+max-width:500px;
 
-position:fixed;
-
-top:0;
-left:0;
-
-width:100%;
-height:100%;
-
-background:black;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-opacity:0;
-pointer-events:none;
-
-transition:0.4s;
-
-}
-
-#fullscreen img{
-max-width:90%;
-max-height:90%;
-}
-
-#fullscreen.show{
-opacity:1;
-pointer-events:auto;
 }
 
 </style>
@@ -321,28 +218,18 @@ These days with you mean the world to me.
 
 <section id="memories">
 
-<div id="milkyway"></div>
 <div id="stars"></div>
 
 <h2>Our Memories 📸</h2>
 
-<div class="gallery-row">
-
-<div class="frame" id="gallery1">
+<div class="gallery" id="gallery">
 
 <img src="photo1.jpg" class="slide active">
 <img src="photo2.jpg" class="slide">
 <img src="photo3.jpg" class="slide">
 <img src="photo4.jpg" class="slide">
-
-</div>
-
-<div class="frame" id="gallery2">
-
-<img src="photo5.jpg" class="slide active">
+<img src="photo5.jpg" class="slide">
 <img src="photo6.jpg" class="slide">
-
-</div>
 
 </div>
 
@@ -350,12 +237,11 @@ These days with you mean the world to me.
 
 <div id="counter"></div>
 
-<button id="letterButton">Open a message 💌</button>
+<button onclick="openLetter()">Open a message 💌</button>
 
 </section>
 
 <div id="letter">
-
 <div id="letterBox">
 
 <h2>For You ❤️</h2>
@@ -375,34 +261,9 @@ I love you.
 <button onclick="closeLetter()">Close</button>
 
 </div>
-
-</div>
-
-<div id="fullscreen">
-<img id="fullimg">
 </div>
 
 <script>
-
-/* HEARTS */
-
-function createHeart(){
-
-const heart=document.createElement("div")
-
-heart.className="heart"
-heart.innerHTML="❤️"
-
-heart.style.left=Math.random()*100+"vw"
-heart.style.fontSize=(15+Math.random()*25)+"px"
-
-document.body.appendChild(heart)
-
-setTimeout(()=>heart.remove(),8000)
-
-}
-
-setInterval(createHeart,800)
 
 /* STARS */
 
@@ -410,19 +271,16 @@ function createStars(){
 
 const stars=document.getElementById("stars")
 
-for(let i=0;i<300;i++){
+for(let i=0;i<250;i++){
 
-const star=document.createElement("div")
+let s=document.createElement("div")
 
-star.className="star"
+s.className="star"
 
-star.style.width=(1+Math.random()*3)+"px"
-star.style.height=star.style.width
+s.style.top=Math.random()*100+"%"
+s.style.left=Math.random()*100+"%"
 
-star.style.top=Math.random()*100+"%"
-star.style.left=Math.random()*100+"%"
-
-stars.appendChild(star)
+stars.appendChild(s)
 
 }
 
@@ -432,107 +290,87 @@ createStars()
 
 /* SHOOTING STARS */
 
-function createShootingStar(){
+function shooting(){
 
-const star=document.createElement("div")
+let star=document.createElement("div")
 
-star.className="shooting-star"
+star.className="shooting"
 
 star.style.top=Math.random()*200+"px"
-star.style.left=Math.random()*window.innerWidth+"px"
+star.style.left=window.innerWidth+"px"
 
-document.getElementById("memories").appendChild(star)
+document.body.appendChild(star)
 
 setTimeout(()=>star.remove(),2000)
 
 }
 
-setInterval(createShootingStar,1500)
+setInterval(shooting,2000)
 
-/* GALLERY 1 */
+/* HEARTS */
 
-let slides1=document.querySelectorAll("#gallery1 .slide")
-let index1=0
+function heart(){
+
+let h=document.createElement("div")
+
+h.className="heart"
+h.innerHTML="❤️"
+
+h.style.left=Math.random()*100+"vw"
+h.style.fontSize=(15+Math.random()*25)+"px"
+
+document.body.appendChild(h)
+
+setTimeout(()=>h.remove(),8000)
+
+}
+
+setInterval(heart,900)
+
+/* SLIDER */
+
+let slides=document.querySelectorAll(".slide")
+
+let index=0
 
 setInterval(()=>{
 
-slides1[index1].classList.remove("active")
+slides[index].classList.remove("active")
 
-index1=(index1+1)%slides1.length
+index=(index+1)%slides.length
 
-slides1[index1].classList.add("active")
+slides[index].classList.add("active")
 
-},4000)
-
-/* GALLERY 2 */
-
-let slides2=document.querySelectorAll("#gallery2 .slide")
-let index2=0
-
-setInterval(()=>{
-
-slides2[index2].classList.remove("active")
-
-index2=(index2+1)%slides2.length
-
-slides2[index2].classList.add("active")
-
-},4500)
+},3500)
 
 /* COUNTER */
 
-const startDate=new Date("2025-03-26")
+const start=new Date("2025-03-26")
 
-function updateCounter(){
+function counter(){
 
-const now=new Date()
+let now=new Date()
 
-const diff=now-startDate
+let diff=now-start
 
-const days=Math.floor(diff/(1000*60*60*24))
+let days=Math.floor(diff/(1000*60*60*24))
 
 document.getElementById("counter").innerHTML=days+" days ❤️"
 
 }
 
-updateCounter()
+counter()
 
-setInterval(updateCounter,60000)
+setInterval(counter,60000)
 
 /* LETTER */
 
-const letter=document.getElementById("letter")
-
-document.getElementById("letterButton").onclick=()=>{
-
-letter.classList.add("show")
-
+function openLetter(){
+document.getElementById("letter").classList.add("show")
 }
 
 function closeLetter(){
-letter.classList.remove("show")
-}
-
-/* FULLSCREEN IMAGE */
-
-const fullscreen=document.getElementById("fullscreen")
-const fullimg=document.getElementById("fullimg")
-
-document.querySelectorAll(".slide").forEach(img=>{
-
-img.onclick=()=>{
-
-fullimg.src=img.src
-fullscreen.classList.add("show")
-
-}
-
-})
-
-fullscreen.onclick=()=>{
-
-fullscreen.classList.remove("show")
-
+document.getElementById("letter").classList.remove("show")
 }
 
 </script>
