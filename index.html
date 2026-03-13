@@ -2,39 +2,62 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>100 Days With You ❤️</title>
+<title>100 Days With You</title>
 
 <style>
 
 body{
-    margin:0;
-    font-family: Arial;
-    color:white;
-    text-align:center;
+margin:0;
+font-family:Arial;
+background:black;
+color:white;
+overflow:hidden;
 }
 
-/* Background */
-.hero{
-    height:100vh;
-    background-image:url("background.jpg");
-    background-size:cover;
-    background-position:center;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    background-color:rgba(0,0,0,0.4);
+/* intro screen */
+
+#intro{
+position:fixed;
+width:100%;
+height:100%;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+font-size:28px;
+text-align:center;
 }
 
-/* Title */
+/* hidden text */
+
+.hidden{
+opacity:0;
+transition:2s;
+}
+
+/* show text */
+
+.show{
+opacity:1;
+}
+
+/* main page */
+
+#main{
+display:none;
+height:100vh;
+background-image:url("background.jpg");
+background-size:cover;
+background-position:center;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+text-align:center;
+}
+
 h1{
-    font-size:60px;
-}
-
-/* Message */
-.message{
-    padding:40px;
-    background:#ff4d6d;
+font-size:60px;
 }
 
 </style>
@@ -42,24 +65,47 @@ h1{
 
 <body>
 
-<div class="hero">
-    <h1>100 Days With You ❤️</h1>
-    <p>Cảm ơn em đã đến bên anh</p>
+<div id="intro">
+
+<div id="message1">
+Please use a computer<br>
+and turn on your sound 🎧
 </div>
 
-<div class="message">
-<h2>Lời nhắn của anh</h2>
-
-<p>
-100 ngày không phải là khoảng thời gian quá dài,
-nhưng với anh nó rất đặc biệt.
-
-Cảm ơn em vì đã xuất hiện trong cuộc sống của anh.
-Anh mong rằng chúng ta sẽ có thêm
-1000 ngày nữa, 10000 ngày nữa cùng nhau.
-</p>
+<div id="message2" class="hidden">
+For the best experience...
+</div>
 
 </div>
+
+<div id="main">
+
+<h1>100 Days With You ❤️</h1>
+<p>Thank you for being in my life</p>
+
+</div>
+
+<audio id="music" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+setTimeout(()=>{
+document.getElementById("message1").classList.add("hidden");
+document.getElementById("message2").classList.add("show");
+},3000);
+
+setTimeout(()=>{
+document.getElementById("music").play();
+},5000);
+
+setTimeout(()=>{
+document.getElementById("intro").style.display="none";
+document.getElementById("main").style.display="flex";
+},8000);
+
+</script>
 
 </body>
 </html>
